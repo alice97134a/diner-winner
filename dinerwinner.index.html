@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今晚吃什麼？</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            color: #444;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            color: white;
+        }
+        .random-btn { background-color: #7a9e9f; }
+        .category-btn { background-color: #ff9a8b; }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>今晚吃什麼？</h1>
+    <div class="container">
+        <p>點擊按鈕隨機選擇或選擇餐點類型：</p>
+        <button class="random-btn" onclick="chooseDinner()">隨機選擇</button>
+        <button class="category-btn" onclick="chooseDinner('中式')">中式</button>
+        <button class="category-btn" onclick="chooseDinner('日式')">日式</button>
+        <button class="category-btn" onclick="chooseDinner('義式')">義式</button>
+        <button class="category-btn" onclick="chooseDinner('美式')">美式</button>
+        <button class="category-btn" onclick="chooseDinner('健康選擇')">健康選擇</button>
+        <button class="category-btn" onclick="chooseDinner('韓式')">韓式</button>
+        <button class="category-btn" onclick="chooseDinner('越式')">越式</button>
+        <button class="category-btn" onclick="chooseDinner('臺灣料理')">臺灣料理</button>
+        <button class="category-btn" onclick="chooseDinner('法式')">法式</button>
+        <button class="category-btn" onclick="chooseDinner('吃到飽')">吃到飽</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const dinnerOptions = {
+            "中式": ["宮保雞丁", "紅燒牛肉麵", "麻婆豆腐", "滷肉飯", "炒飯", "水餃"],
+            "日式": ["壽司", "拉麵", "咖哩飯", "炸豬排", "親子丼", "烏龍麵"],
+            "義式": ["義大利麵", "披薩", "番茄燉飯", "千層麵", "凱撒沙拉"],
+            "美式": ["漢堡", "炸雞", "牛排", "薯條", "BBQ 烤肉"],
+            "健康選擇": ["沙拉", "烤雞胸", "燕麥粥", "蔬菜湯", "豆腐料理"],
+            "韓式": ["韓式炸雞", "石鍋拌飯", "泡菜鍋", "部隊鍋", "韓式烤肉"],
+            "越式": ["越南河粉", "法國麵包三明治", "越式春捲", "雞肉飯", "涼拌米線"],
+            "臺灣料理": ["滷肉飯", "蚵仔煎", "牛肉麵", "鹽酥雞", "大腸包小腸"],
+            "法式": ["鵝肝", "法式焗田螺", "松露燉飯", "法式燉牛肉", "可麗露"],
+            "吃到飽": ["燒肉吃到飽", "火鍋吃到飽", "自助餐", "壽喜燒", "韓式燒肉"]
+        };
+
+        function chooseDinner(category = null) {
+            let chosenCategory;
+            if (category && dinnerOptions[category]) {
+                chosenCategory = category;
+            } else {
+                const allCategories = Object.keys(dinnerOptions);
+                chosenCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+            }
+            const choices = dinnerOptions[chosenCategory];
+            const dinnerChoice = choices[Math.floor(Math.random() * choices.length)];
+            document.getElementById("result").innerText = `今晚吃：${dinnerChoice}`;
+        }
+    </script>
+
+</body>
+</html>
