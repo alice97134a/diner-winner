@@ -2,38 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dinner Picker 🍽️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What to Eat Tonight 🍽️</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 30px;
       margin: 0;
       transition: background-color 0.3s, color 0.3s;
     }
-    .dark-mode {
-      background-color: #000;
-      color: #fff;
-    }
-    .light-mode {
-      background-color: #f5f5f5;
-      color: #333;
-    }
+    .dark-mode { background-color: #111; color: #eee; }
+    .light-mode { background-color: #fff; color: #111; }
     .container {
       max-width: 600px;
       margin: auto;
       padding: 20px;
-      border-radius: 10px;
-      transition: background-color 0.3s;
-    }
-    .dark-mode .container {
-      background: #1c1c1c;
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-    }
-    .light-mode .container {
-      background: #fff;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
     button {
       margin: 5px;
@@ -47,81 +31,119 @@
     .random-btn { background-color: #7a9e9f; }
     .category-btn { background-color: #ff9a8b; }
     .mode-btn { background-color: #444; }
-    .lang-btn { background-color: #5c6bc0; }
-
+    .lang-btn { background-color: #666; }
     #result {
       font-size: 22px;
       margin-top: 20px;
       font-weight: bold;
     }
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      button { width: 100%; margin: 5px 0; }
+    }
   </style>
 </head>
 <body class="dark-mode">
-  <h1 id="title">🍽️ What’s for Dinner?</h1>
-  <button class="mode-btn" onclick="toggleMode()">🌓 Toggle Theme</button>
-  <button class="lang-btn" onclick="toggleLang()">🌐 中 / EN</button>
+  <h1 id="title">🍽️ What to Eat Tonight?</h1>
+  <button class="mode-btn" onclick="toggleMode()">🌓</button>
+  <button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
 
   <div class="container">
-    <p id="subtitle">Tap to randomly choose or pick a category:</p>
+    <p id="desc">Tap a button to randomly choose or pick a category:</p>
     <button class="random-btn" onclick="chooseDinner()">🎲 Random</button>
-    <button class="category-btn" onclick="chooseDinner('Fast Food')">🍔 Fast Food</button>
-    <button class="category-btn" onclick="chooseDinner('Try Something New')">🌍 Try Something New</button>
+    <div id="category-buttons"></div>
     <p id="result"></p>
   </div>
 
   <script>
-    let lang = "EN";
-
-    const dinnerOptions = {
-      "Fast Food": ["🍔 McDonald's", "🍕 Pizza Pizza", "☕ Tim Hortons", "🍔 Wendy's", "🍔 Hero", "🌮 Taco Bell", "🍗 Popeyes", "🥪 Subway", "🍗 KFC", "🍔 Five Guys"],
-      "Try Something New": ["🥩 Asado", "🍖 Churrasco", "🔥 Carne Asada", "🥓 Yakitori / Yakiniku", "🍢 Moo Ping", "🍲 Laksa", "🍜 Bak Kut Teh", "🍝 Goulash", "🍜 Bún Riêu",
-        "🍛 Butter Chicken + Basmati Rice", "🍚 Adobo", "🍚 Paella", "🍚 Koshari", "🍲 Seolleongtang", "🍲 Tom Kha Gai", "🍲 Borscht", "🍲 Bouillabaisse", "🧀 Fondue",
-        "🥞 Crêpes", "🍠 Yaki-Imo", "🍩 Pastel de Nata", "🍞 Schnecken", "🐟 Hákarl", "🐑 Khorkhog", "🦆 Salted Duck", "🦘 Kangaroo Steak", "🥩 Bouzelouf", "🌶️🧄 Stinky Tofu", "🥔 Rösti"]
-    };
-
-    function chooseDinner(category = null) {
-      let chosenCategory;
-
-      if (category && dinnerOptions.hasOwnProperty(category)) {
-        chosenCategory = category;
-      } else {
-        const allCategories = Object.keys(dinnerOptions);
-        chosenCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+    const data = {
+      en: {
+        title: "🍽️ What to Eat Tonight?",
+        desc: "Tap a button to randomly choose or pick a category:",
+        buttonText: "🎲 Random",
+        categories: {
+          Chinese: ["Fried Rice", "Braised Beef Noodles", "Mapo Tofu"],
+          Japanese: ["Sushi", "Ramen", "Curry Rice"],
+          Italian: ["Pasta", "Pizza", "Risotto"],
+          American: ["Burger", "Fried Chicken", "BBQ Ribs"],
+          Healthy: ["Salad", "Grilled Chicken Breast", "Tofu Dishes"],
+          Korean: ["Korean Fried Chicken", "Bibimbap", "Kimchi Stew"],
+          Thai: ["Green Curry", "Tom Yum Soup", "Pad Thai"],
+          French: ["Coq au Vin", "Beef Bourguignon", "Ratatouille"],
+          Snacks: ["Dumplings", "Bao", "Fried Wontons"],
+          Baked: ["Croissant", "Baguette", "Pancakes"],
+          FastFood: ["McDonald's", "Pizza Pizza", "Tim Hortons"],
+          Dessert: ["Tiramisu", "Macaron", "Bubble Tea"],
+          Drinks: ["Coffee", "Tea", "Soda"],
+          Buffet: ["BBQ Buffet", "Seafood Buffet", "Sushi Buffet"],
+          Spaghetti: ["Tomato Spaghetti", "Carbonara", "Pesto Pasta"],
+          New: ["Argentinian BBQ", "Brazilian BBQ", "Laksa"]
+        }
+      },
+      zh: {
+        title: "🍽️ 今晚吃什麼？",
+        desc: "點擊按鈕隨機選擇，或選擇餐點類型：",
+        buttonText: "🎲 隨機選擇",
+        categories: {
+          中式: ["炒飯", "紅燒牛肉麵", "麻婆豆腐"],
+          日式: ["壽司", "拉麵", "咖哩飯"],
+          義式: ["義大利麵", "披薩", "燉飯"],
+          美式: ["漢堡", "炸雞", "BBQ 烤肉"],
+          健康選擇: ["沙拉", "烤雞胸", "豆腐料理"],
+          韓式: ["韓式炸雞", "石鍋拌飯", "泡菜鍋"],
+          泰式: ["泰式綠咖哩", "冬蔭功", "Pad Thai"],
+          法式: ["紅酒燉雞", "法式燉牛肉", "普羅旺斯燉菜"],
+          小食: ["水餃", "包子", "餛飩"],
+          烘培: ["可頌", "法棍", "鬆餅"],
+          速食: ["麥當勞", "Pizza Pizza", "Tim Hortons"],
+          甜點: ["提拉米蘇", "馬卡龍", "珍珠奶茶"],
+          飲料: ["咖啡", "茶", "汽水"],
+          吃到飽: ["燒肉吃到飽", "甜點吃到飽", "壽司吃到飽"],
+          義大利麵: ["番茄義大利麵", "奶油培根麵", "青醬麵"],
+          新鮮體驗: ["阿根廷烤肉", "巴西烤肉", "Laksa"]
+        }
       }
+    };  
+ 
+    let currentLang = "en";
 
-      const choices = dinnerOptions[chosenCategory];
-      const dinnerChoice = choices[Math.floor(Math.random() * choices.length)];
-      document.getElementById("result").innerText = lang === "EN" ? `Tonight's Pick: ${dinnerChoice}` : `今晚吃：${dinnerChoice}`;
+    function renderText() {
+      document.getElementById("title").textContent = data[currentLang].title;
+      document.getElementById("desc").textContent = data[currentLang].desc;
+      document.querySelector(".random-btn").textContent = data[currentLang].buttonText;
+      renderButtons();
     }
 
-    function toggleMode() {
-      const body = document.body;
-      const isDark = body.classList.toggle("dark-mode");
-      body.classList.toggle("light-mode");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
+    function renderButtons() {
+      const categoryButtons = document.getElementById("category-buttons");
+      categoryButtons.innerHTML = "";
+      const categories = data[currentLang].categories;
+      for (let key in categories) {
+        const btn = document.createElement("button");
+        btn.className = "category-btn";
+        btn.textContent = key;
+        btn.onclick = () => chooseDinner(key);
+        categoryButtons.appendChild(btn);
+      }
+    }
+
+    function chooseDinner(category) {
+      const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
+      const pick = items[Math.floor(Math.random() * items.length)];
+      document.getElementById("result").textContent = pick;
     }
 
     function toggleLang() {
-      lang = lang === "EN" ? "ZH" : "EN";
-      document.getElementById("title").innerText = lang === "EN" ? "🍽️ What’s for Dinner?" : "🍽️ 今晚吃什麼？";
-      document.getElementById("subtitle").innerText = lang === "EN" ? "Tap to randomly choose or pick a category:" : "點擊按鈕 隨機選擇 或選擇餐點類型：";
-      document.querySelector(".random-btn").innerText = lang === "EN" ? "🎲 Random" : "🎲 隨機選擇";
-      document.querySelectorAll(".category-btn")[0].innerText = lang === "EN" ? "🍔 Fast Food" : "🏪 速食";
-      document.querySelectorAll(".category-btn")[1].innerText = lang === "EN" ? "🌍 Try Something New" : "🌍 試試新口味";
+      currentLang = currentLang === "en" ? "zh" : "en";
+      renderText();
     }
 
-    window.onload = function () {
-      const savedTheme = localStorage.getItem("theme");
-      const body = document.body;
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("light-mode");
+    }
 
-      if (savedTheme === "light") {
-        body.classList.remove("dark-mode");
-        body.classList.add("light-mode");
-      } else {
-        body.classList.remove("light-mode");
-        body.classList.add("dark-mode");
-      }
-    };
+    renderText();
   </script>
 </body>
 </html>
