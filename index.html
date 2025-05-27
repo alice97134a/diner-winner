@@ -1,115 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>今晚吃什麼？ 🍽️</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #111;
-      color: #eee;
-    }
-    h1 {
-      color: #fff;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.05);
-    }
-    button {
-      margin: 5px;
-      padding: 10px 15px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-      color: white;
-    }
-    .random-btn {
-      background-color: #88c0d0;
-    }
-    .category-btn {
-      background-color: #d08770;
-    }
-    #result {
-      font-size: 22px;
-      margin-top: 20px;
-      font-weight: bold;
-      color: #f0e68c;
-    }
-  </style>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 50px;
-        margin: 0;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .dark-mode {
-        background-color: #000000;
-        color: #ffffff;
-    }
-
-    .light-mode {
-        background-color: #f5f5f5;
-        color: #333333;
-    }
-
-    h1 {
-        margin-top: 0;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: auto;
-        background: #1c1c1c;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1);
-        transition: background-color 0.3s;
-    }
-
-    .light-mode .container {
-        background: white;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-        margin: 5px;
-        padding: 10px 15px;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-        color: white;
-    }
-
-    .random-btn { background-color: #7a9e9f; }
-    .category-btn { background-color: #ff9a8b; }
-    .mode-btn { background-color: #444; }
-
-    #result {
-        font-size: 22px;
-        margin-top: 20px;
-        font-weight: bold;
-    }
-</style>
-</head>
-<body class="dark-mode">
-
-    <h1>🍽️ 今晚吃什麼？</h1>
-    <button class="mode-btn" onclick="toggleMode()">🌓 切換日／夜模式</button>
-    <div class="container">
+  <div class="container">
+        <p id="result"></p>
+        <button class="mode-btn" onclick="toggleMode()">🌓 切換日／夜模式</button>
         <p>點擊按鈕 隨 機 選 擇 或選擇 餐 點 類 型：</p>
+        <button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+        <p>👇 點一下開始 | Tap to Start 👇</p>
         <button class="random-btn" onclick="chooseDinner()">🎲 隨機選擇</button>
         <button class="category-btn" onclick="chooseDinner('中式')">🥢 中式</button>
         <button class="category-btn" onclick="chooseDinner('日式')">🍣 日式</button>
@@ -129,7 +23,6 @@
         <button class="category-btn" onclick="chooseDinner('吃到飽')">🔥 吃到飽</button>
         <button class="category-btn" onclick="chooseDinner('義大利麵特區')">🍴 義大利麵特區</button>
         <button class="category-btn" onclick="chooseDinner('Try Something New')">🌍 Try something new</button>
-        <p id="result"></p>
     </div>
 
     <script>
@@ -153,47 +46,45 @@
             "義大利麵": ["🍅 番茄義大利麵", "🥓 奶油培根義大利麵", "🌿 青醬義大利麵", "🦪 蒜香白酒蛤蜊麵", "🍖 義式肉醬麵", "🍄 松露野菇義大利麵", "🦐 海鮮義大利麵", "🌰 黑松露奶油義大利麵", "🦑 明太子義大利麵", "🎃 南瓜奶油義大利麵", "🐟 茄汁鮪魚義大利麵", "🌶️ 辣味蒜香義大利麵", "🦆 煙燻鴨胸義大利麵", "🐔 奶油雞肉菠菜義大利麵", "🥬 松露奶油菠菜義大利麵", "🥦 素食綠咖哩義大利麵", "🖤 墨魚汁義大利麵", "🧀 松露帕瑪森起司義大利麵", "🌼 番紅花奶油義大利麵"],
             "Try something new": ["🥩 阿根廷烤肉（Asado）", "🍖 巴西烤肉（Churrasco）", "🔥 墨西哥碳烤肉（Carne Asada）", "🥓 日式烤串（Yakitori, Yakiniku）", "🍢 泰式烤豬肉串（Moo Ping）", "🍲 馬來西亞咖哩叻沙（Laksa）", "🍜 新加坡肉骨茶（Bak Kut Teh）", "🍝 匈牙利牛肉麵（Goulash）", "🍜 越南蟹湯米線（Bún Riêu）", 
                                   "🍛 印度黃咖哩飯（Butter Chicken + Basmati Rice）", "🍚 菲律賓燉豬肉飯（Adobo）", "🍚 西班牙海鮮飯（Paella）", "🍚 埃及雞肉飯（Koshari）", "🍲 韓國牛骨湯（Seolleongtang）", "🍲 泰國酸辣椰奶雞湯（Tom Kha Gai）", "🍲 俄羅斯羅宋湯（Borscht）", "🍲 法國魚湯（Bouillabaisse）", "🧀 瑞士起司鍋（Fondue）", "🥞 法國可麗餅（Crêpes）", "🍠 日式烤地瓜（Yaki-Imo）", "🍩 葡式蛋塔（Pastel de Nata）", "🍞 德國奶油捲（Schnecken）", "🐟 冰島發酵鯊魚（Hákarl）", "🐑 蒙古手扒羊（Khorkhog）", "🦆 中國鹽水鴨（Salted Duck）", "🦘 澳洲袋鼠肉（Kangaroo Steak）", "🥩 阿爾及利亞羊頭湯（Bouzelouf）", "🌶️🧄 臭豆腐", "🥔 瑞士烤馬鈴薯餅（Rösti）"],
+        };
+
         function chooseDinner(category = null) {
-        let chosenCategory;
-
-        if (category && dinnerOptions.hasOwnProperty(category)) {
-            chosenCategory = category;
-        } else {
-            const allCategories = Object.keys(dinnerOptions);
-            chosenCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
-        }
-
-        const choices = dinnerOptions[chosenCategory];
-        const dinnerChoice = choices[Math.floor(Math.random() * choices.length)];
-        document.getElementById("result").innerText = 今晚吃：${dinnerChoice};
+      const categories = Object.keys(dinnerOptions);
+      const chosenCategory = category && dinnerOptions[category] ? category : categories[Math.floor(Math.random() * categories.length)];
+      const options = dinnerOptions[chosenCategory];
+      const choice = options[Math.floor(Math.random() * options.length)];
+      document.getElementById("result").innerText = `今晚吃：${choice}`;
     }
 
     function toggleMode() {
-        const body = document.body;
-        const isDark = body.classList.toggle("dark-mode");
-        body.classList.toggle("light-mode");
+  const body = document.body;
+  if (body.classList.contains("dark-mode")) {
+    body.classList.remove("dark-mode");
+    body.classList.add("light-mode");
+    localStorage.setItem("theme", "light");
+  } else {
+    body.classList.remove("light-mode");
+    body.classList.add("dark-mode");
+    localStorage.setItem("theme", "dark");
+  }
+}
 
-        // Save to localStorage
-        if (isDark) {
-            localStorage.setItem("theme", "dark");
-        } else {
-            localStorage.setItem("theme", "light");
-        }
+    window.onload = () => {
+      const theme = localStorage.getItem("theme");
+      const body = document.body;
+      if (theme === "light") {
+        body.classList.remove("dark-mode");
+        body.classList.add("light-mode");
+      } else if (theme === "dark") {
+        body.classList.add("dark-mode");
+        body.classList.remove("light-mode");
+      } else {
+        const hour = new Date().getHours();
+        const isDay = hour >= 6 && hour < 18;
+        body.classList.add(isDay ? "light-mode" : "dark-mode");
+        body.classList.remove(isDay ? "dark-mode" : "light-mode");
+      }
     }
-
-    // On load: check saved mode
-    window.onload = function () {
-        const savedTheme = localStorage.getItem("theme");
-        const body = document.body;
-
-        if (savedTheme === "light") {
-            body.classList.remove("dark-mode");
-            body.classList.add("light-mode");
-        } else {
-            body.classList.remove("light-mode");
-            body.classList.add("dark-mode");
-        }
-    };
-</script>
+  </script>
 </body>
 </html>
