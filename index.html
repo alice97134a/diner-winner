@@ -1,90 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dinner Picker 🍽️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode {
+      background-color: #000;
+      color: #fff;
+    }
+    .light-mode {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+    }
+    .dark-mode .container {
+      background: #1c1c1c;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+    .light-mode .container {
+      background: #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      color: white;
+    }
+    .random-btn { background-color: #7a9e9f; }
+    .category-btn { background-color: #ff9a8b; }
+    .mode-btn { background-color: #444; }
+    .lang-btn { background-color: #5c6bc0; }
+
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <h1 id="title">🍽️ What’s for Dinner?</h1>
+  <button class="mode-btn" onclick="toggleMode()">🌓 Toggle Theme</button>
+  <button class="lang-btn" onclick="toggleLang()">🌐 中 / EN</button>
+
   <div class="container">
-        <p id="result"></p>
-        <button class="mode-btn" onclick="toggleMode()">🌓 切換日／夜模式</button>
-        <p>點擊按鈕 隨 機 選 擇 或選擇 餐 點 類 型：</p>
-        <button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
-        <p>👇 點一下開始 | Tap to Start 👇</p>
-        <button class="random-btn" onclick="chooseDinner()">🎲 隨機選擇</button>
-        <button class="category-btn" onclick="chooseDinner('中式')">🥢 中式</button>
-        <button class="category-btn" onclick="chooseDinner('日式')">🍣 日式</button>
-        <button class="category-btn" onclick="chooseDinner('義式')">🍝 義式</button>
-        <button class="category-btn" onclick="chooseDinner('美式')">🍔 美式</button>
-        <button class="category-btn" onclick="chooseDinner('健康選擇')">🥗 健康選擇</button>
-        <button class="category-btn" onclick="chooseDinner('韓式')">🌶️ 韓式</button>
-        <button class="category-btn" onclick="chooseDinner('越式')">🍜 越式</button>
-        <button class="category-btn" onclick="chooseDinner('泰式')">🇹🇭 泰式</button>
-        <button class="category-btn" onclick="chooseDinner('法式')">🇫🇷 法式</button>
-        <button class="category-btn" onclick="chooseDinner('湯鍋')">🍲 湯鍋類</button>
-        <button class="category-btn" onclick="chooseDinner('小食')">🥢 小食</button>
-        <button class="category-btn" onclick="chooseDinner('烘培')">🥐 烘培</button>
-        <button class="category-btn" onclick="chooseDinner('速食')">🏪 速食</button>
-        <button class="category-btn" onclick="chooseDinner('甜點')">🍰 甜點</button>
-        <button class="category-btn" onclick="chooseDinner('飲料')">☕ 飲料</button>
-        <button class="category-btn" onclick="chooseDinner('吃到飽')">🔥 吃到飽</button>
-        <button class="category-btn" onclick="chooseDinner('義大利麵特區')">🍴 義大利麵特區</button>
-        <button class="category-btn" onclick="chooseDinner('Try Something New')">🌍 Try something new</button>
-    </div>
+    <p id="subtitle">Tap to randomly choose or pick a category:</p>
+    <button class="random-btn" onclick="chooseDinner()">🎲 Random</button>
+    <button class="category-btn" onclick="chooseDinner('Fast Food')">🍔 Fast Food</button>
+    <button class="category-btn" onclick="chooseDinner('Try Something New')">🌍 Try Something New</button>
+    <p id="result"></p>
+  </div>
 
-    <script>
-        const dinnerOptions = {
-            "中式": ["🍚 炒飯", "🍜 紅燒牛肉麵", "🌶️ 麻婆豆腐", "🍚 滷肉飯", "🥟 水餃", "🥢 宮保雞丁 + 白飯", "🌶️🍛 麻婆豆腐 + 白飯", "🍚🥚 滷肉飯 + 半熟蛋", "🍲🐮 紅燒牛肉飯", "🍚🔥 煲仔飯（滑雞 / 臘味）", "🍚🥬 上海菜飯", "🍲🐟 生滾粥（皮蛋瘦肉粥 / 海鮮粥）", "🍖🍚 新疆手抓飯", "🐔🧄 白斬雞 + 薑蔥醬", "🍍🐷 咕嚕肉（糖醋里肌）", "🍚🐷 扣肉飯", "🍖🍚 東坡肉飯", "🍚🍖 燒臘飯（叉燒 / 燒鴨 / 燒肉）", "🍜🐮 紅燒牛肉麵", "🍝🥒 炸醬麵", "🍜🔪 刀削麵", "🍜🥩 炒碼麵", "🍗🍝 新疆大盤雞 + 拌麵", "🌶️🍜 擔擔麵", "🦞🍜 龍蝦伊麵", "🍜🍳 上海粗炒", "🍜🥢 麵線糊", "🥢🐜 螞蟻上樹（粉絲炒肉末）", "🍜🌶️ 桂林米粉", "🌶️🍜 螺螄粉", "🥩🔥 牛仔骨（烤 / 燒汁）", "🍖🥯 東北烤羊肉串 + 烤饅頭片", "🍗🔥 烤雞翅", "🦑🔥 烤魷魚", "🌿🔥 烤韭菜", "🍆🔥 烤茄子", "🦆🔥 北京烤鴨", "🐷🔥 蜜汁叉燒", "🌶️🐔 口水雞", "🧄🥩 蔥爆牛肉", "🦐🔥 鹽酥蝦"],
-            "日式": ["🍣 壽司", "🍜 拉麵", "🍛 咖哩飯", "🍖 炸豬排", "🥚🍚 親子丼", "🍜 烏龍麵", "🐟 刺身", "🍢 照燒雞", "🐙 章魚燒", "🍤 天婦羅", "🍙 御飯糰", "🍲 壽喜燒", "🐙 生章魚（Tako Wasabi）"],
-            "義式": ["🍝 義大利麵", "🍕 披薩", "🍅 番茄燉飯", "🍲 千層麵", "🥗 凱撒沙拉", "🥩 義式燉牛肉", "🍰 提拉米蘇", "☕ 卡布奇諾", "🍞 義式薄餅", "🍄 松露燉飯"],
-            "美式": ["🍔 漢堡", "🍗 炸雞", "🥩 牛排", "🍟 薯條", "🔥 BBQ 烤肉", "🌭 熱狗", "🐟 炸魚薯條", "🌮 牛肉塔可", "🧅 炸洋蔥圈", "🥜 花生醬三明治"],
-            "健康選擇": ["🥗 沙拉", "🍗🔥 烤雞胸",　"🥣 燕麥粥",　"🥦🥕 蔬菜湯",　"🍽️ 豆腐料理",　"🥜🥛 堅果優格",　"🥗🍚 藜麥沙拉",　"🥪 全麥三明治",　"🥬🍏 綠色果昔",　"🥚 水煮蛋",　"🥑🍞 酪梨吐司",　"🍣🌱 全素壽司",　"🥬🍹 綠拿鐵",　"🍯🥣 希臘優格碗"],
-            "韓式": ["🍗 韓式炸雞", "🍲 石鍋拌飯", "🌶️ 泡菜鍋", "🍜 部隊鍋", "🔥 韓式烤肉", "🍚 泡菜炒飯", "🌶️ 辣炒年糕", "🍲 大醬湯", "🥞 韓式煎餅", "🍜 冷麵", "🍢 血腸", "🥩🔥 烤牛腸"],
-            "越式": ["🍜 越南河粉", "🥖 法國麵包三明治", "🥢 越式春捲", "🍗 雞肉飯", "🍜 涼拌米線", "🦐 甘蔗蝦", "🍚 越式炒飯", "🍋 檸檬草烤雞", "🐮 牛肉粉", "☕ 越式咖啡"],
-            "泰式": ["🍛🌿 泰式綠咖哩", "🍲🦐 冬蔭功（酸辣海鮮湯）", "🍚🐷 泰式打拋豬", "🍜🥜 泰式炒河粉（Pad Thai）", "🥥🍲 椰漿雞湯（Tom Kha Gai）", "🥭🍚 芒果糯米飯", "🍗🔥 泰式烤雞（Gai Yang）", "🌶️🐟 泰式檸檬蒸魚", "🍤 泰式蝦餅", "🥗 青木瓜沙拉（Som Tam）", "🍤🦀 泰式黃咖哩蟹", "🍲🐟 泰北咖哩麵（Khao Soi）", "🥥🍛 泰式紅咖哩", "🥜🐔 泰式沙嗲雞串", "🍹 泰式奶茶", "🥥 椰子冰沙"],
-            "法式": ["🍷 紅酒燉雞", "🍲 法式燉牛肉", "🍆🍅 普羅旺斯燉菜", "🦆🍊 鴨胸佐橙醬", "🦞🔥 法式焗龍蝦", "🥖 法棍", "🧀 起司拼盤"],
-            "湯鍋": ["🐑🍲 羊肉爐", "🐔 花膠雞", "🥢🐷 豬肚雞", "🐟🍲 酸菜魚 + 白飯", "🌶️🍲 泡菜豆腐湯", "🍵🐷 老火煲湯", "🍲🥢 佛跳牆", "🐟🍲 砂鍋魚頭", "🧄🍲 奶油洋蔥湯", "🌶️🥣 酸辣湯", "🍲🦞 龍蝦湯"],
-            "小食": ["🥟 餃子", "🥟🔥 煎餃", "🥢🐷 包子", "🍔🐷 肉夾饃", "🍜🥟 餛飩", "🥟🔥 生煎包", "🥞🧄 蔥油餅", "🍳 煎蛋", "🥚 蛋餅", "🍢 滷味", "🍗 鹹酥雞", "🍮 豆花", "🥣 湯圓", "🥟 韭菜盒子", "🍡 糯米糍", "🌽 烤玉米", "🍘 煎年糕", "🥔 地瓜球", "🦑 炸魷魚", "🦐 炸蝦", "🥖 煎餅果子", "🍤 炸蝦天婦羅", "🌭 玉米熱狗", "🍘 米果", "🥜 花生糖", "🍞 甜甜圈", "🥔 炸薯條", "🧀 起司棒", "🥓 炸培根捲", "🍢 章魚燒", "🦪 炸牡蠣", "🌮 墨西哥塔可", "🍗 炸雞塊", "🧄 烤大蒜", "🌰 烤栗子", "🍠 烤地瓜", "🥒 涼拌黃瓜", "🌶️ 辣炒年糕", "🍗 韓式炸雞", "🥨 鹹脆餅", "🍯 蜜糖吐司", "🍘 麻糬", "🥙 沙威瑪", "🌮 煎餅捲", "🍛 日式可樂餅", "🥠 幸運餅乾", "🍢 串串香", "🍖 小肉串", "🥚 茶葉蛋", "🍗 棒棒腿", "🍞 奶油厚片", "🍚 炸飯糰", "🦑 魷魚絲", "🍠 紅薯條"],
-            "烘培": ["🥐 可頌", "🥖 法棍", "🍞 吐司", "🥞 鬆餅", "🍰 海綿蛋糕", "🍞 布里歐麵包", "🍩 甜甜圈", "🥨 德式椒鹽脆餅", "🍪 餅乾", "🥧 蘋果派", "🍞 丹麥麵包", "🥯 貝果", "🍞 香蕉蛋糕", "🍞 佛卡夏", "🥯 奶油司康", "🥖 齊亞巴塔", "🍞 香蒜麵包", "🍰 巴斯克乳酪蛋糕", "🥞 荷蘭小鬆餅（Poffertjes）"],
-            "速食": ["🍔 麥當勞", "🍕 Pizza Pizza", "☕ Tim Hortons", "🍔 Wendy's", "🍔 Hero", "🌮 Taco Bell", "🍗 Popeyes", "🥪 Subway", "🍗 KFC", "🍔 Five Guys"],
-            "甜點": ["🍰 提拉米蘇", "🍪 馬卡龍", "🧋 珍珠奶茶", "🍰 杯子蛋糕", "🥭🍚 芒果糯米飯", "🍦 鮮果雪糕", "🥞 法式可麗餅", "🍩 甜甜圈", "🥧 蘋果派", "🍮 焦糖布丁", "🍫 布朗尼", "🍰 紅絲絨蛋糕", "🍩 波提甜甜圈", "🥠 臺灣囍餅", "🍮 日式芝士蛋糕", "🥜 花生糖", "🥛 奶凍", "🍳 蛋黃酥", "🍍 鳳梨酥", "🥚 舒芙雷"],
-            "飲料": ["☕ 咖啡", "🍵 茶", "🥤 碳酸飲料", "🍹 調酒", "🥛 鮮奶", "🍵 抹茶拿鐵", "🥥 椰子水", "🍎 蘋果汁", "🍊 柳橙汁", "🍋 檸檬水", "🥤 蘇打水", "🍹 莓果冰沙", "🍶 清酒", "🍷 紅酒", "🍾 香檳"],
-            "吃到飽": ["🔥 燒肉吃到飽", "🍰 甜點吃到飽", "🍤 炸物吃到飽", "🍣 壽司吃到飽", "🦞 海鮮吃到飽", "🍽️ 自助餐"],
-            "義大利麵": ["🍅 番茄義大利麵", "🥓 奶油培根義大利麵", "🌿 青醬義大利麵", "🦪 蒜香白酒蛤蜊麵", "🍖 義式肉醬麵", "🍄 松露野菇義大利麵", "🦐 海鮮義大利麵", "🌰 黑松露奶油義大利麵", "🦑 明太子義大利麵", "🎃 南瓜奶油義大利麵", "🐟 茄汁鮪魚義大利麵", "🌶️ 辣味蒜香義大利麵", "🦆 煙燻鴨胸義大利麵", "🐔 奶油雞肉菠菜義大利麵", "🥬 松露奶油菠菜義大利麵", "🥦 素食綠咖哩義大利麵", "🖤 墨魚汁義大利麵", "🧀 松露帕瑪森起司義大利麵", "🌼 番紅花奶油義大利麵"],
-            "Try something new": ["🥩 阿根廷烤肉（Asado）", "🍖 巴西烤肉（Churrasco）", "🔥 墨西哥碳烤肉（Carne Asada）", "🥓 日式烤串（Yakitori, Yakiniku）", "🍢 泰式烤豬肉串（Moo Ping）", "🍲 馬來西亞咖哩叻沙（Laksa）", "🍜 新加坡肉骨茶（Bak Kut Teh）", "🍝 匈牙利牛肉麵（Goulash）", "🍜 越南蟹湯米線（Bún Riêu）", 
-                                  "🍛 印度黃咖哩飯（Butter Chicken + Basmati Rice）", "🍚 菲律賓燉豬肉飯（Adobo）", "🍚 西班牙海鮮飯（Paella）", "🍚 埃及雞肉飯（Koshari）", "🍲 韓國牛骨湯（Seolleongtang）", "🍲 泰國酸辣椰奶雞湯（Tom Kha Gai）", "🍲 俄羅斯羅宋湯（Borscht）", "🍲 法國魚湯（Bouillabaisse）", "🧀 瑞士起司鍋（Fondue）", "🥞 法國可麗餅（Crêpes）", "🍠 日式烤地瓜（Yaki-Imo）", "🍩 葡式蛋塔（Pastel de Nata）", "🍞 德國奶油捲（Schnecken）", "🐟 冰島發酵鯊魚（Hákarl）", "🐑 蒙古手扒羊（Khorkhog）", "🦆 中國鹽水鴨（Salted Duck）", "🦘 澳洲袋鼠肉（Kangaroo Steak）", "🥩 阿爾及利亞羊頭湯（Bouzelouf）", "🌶️🧄 臭豆腐", "🥔 瑞士烤馬鈴薯餅（Rösti）"],
-        };
+  <script>
+    let lang = "EN";
 
-        function chooseDinner(category = null) {
-      const categories = Object.keys(dinnerOptions);
-      const chosenCategory = category && dinnerOptions[category] ? category : categories[Math.floor(Math.random() * categories.length)];
-      const options = dinnerOptions[chosenCategory];
-      const choice = options[Math.floor(Math.random() * options.length)];
-      document.getElementById("result").innerText = `今晚吃：${choice}`;
+    const dinnerOptions = {
+      "Fast Food": ["🍔 McDonald's", "🍕 Pizza Pizza", "☕ Tim Hortons", "🍔 Wendy's", "🍔 Hero", "🌮 Taco Bell", "🍗 Popeyes", "🥪 Subway", "🍗 KFC", "🍔 Five Guys"],
+      "Try Something New": ["🥩 Asado", "🍖 Churrasco", "🔥 Carne Asada", "🥓 Yakitori / Yakiniku", "🍢 Moo Ping", "🍲 Laksa", "🍜 Bak Kut Teh", "🍝 Goulash", "🍜 Bún Riêu",
+        "🍛 Butter Chicken + Basmati Rice", "🍚 Adobo", "🍚 Paella", "🍚 Koshari", "🍲 Seolleongtang", "🍲 Tom Kha Gai", "🍲 Borscht", "🍲 Bouillabaisse", "🧀 Fondue",
+        "🥞 Crêpes", "🍠 Yaki-Imo", "🍩 Pastel de Nata", "🍞 Schnecken", "🐟 Hákarl", "🐑 Khorkhog", "🦆 Salted Duck", "🦘 Kangaroo Steak", "🥩 Bouzelouf", "🌶️🧄 Stinky Tofu", "🥔 Rösti"]
+    };
+
+    function chooseDinner(category = null) {
+      let chosenCategory;
+
+      if (category && dinnerOptions.hasOwnProperty(category)) {
+        chosenCategory = category;
+      } else {
+        const allCategories = Object.keys(dinnerOptions);
+        chosenCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+      }
+
+      const choices = dinnerOptions[chosenCategory];
+      const dinnerChoice = choices[Math.floor(Math.random() * choices.length)];
+      document.getElementById("result").innerText = lang === "EN" ? `Tonight's Pick: ${dinnerChoice}` : `今晚吃：${dinnerChoice}`;
     }
 
     function toggleMode() {
-  const body = document.body;
-  if (body.classList.contains("dark-mode")) {
-    body.classList.remove("dark-mode");
-    body.classList.add("light-mode");
-    localStorage.setItem("theme", "light");
-  } else {
-    body.classList.remove("light-mode");
-    body.classList.add("dark-mode");
-    localStorage.setItem("theme", "dark");
-  }
-}
-
-    window.onload = () => {
-      const theme = localStorage.getItem("theme");
       const body = document.body;
-      if (theme === "light") {
+      const isDark = body.classList.toggle("dark-mode");
+      body.classList.toggle("light-mode");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    function toggleLang() {
+      lang = lang === "EN" ? "ZH" : "EN";
+      document.getElementById("title").innerText = lang === "EN" ? "🍽️ What’s for Dinner?" : "🍽️ 今晚吃什麼？";
+      document.getElementById("subtitle").innerText = lang === "EN" ? "Tap to randomly choose or pick a category:" : "點擊按鈕 隨機選擇 或選擇餐點類型：";
+      document.querySelector(".random-btn").innerText = lang === "EN" ? "🎲 Random" : "🎲 隨機選擇";
+      document.querySelectorAll(".category-btn")[0].innerText = lang === "EN" ? "🍔 Fast Food" : "🏪 速食";
+      document.querySelectorAll(".category-btn")[1].innerText = lang === "EN" ? "🌍 Try Something New" : "🌍 試試新口味";
+    }
+
+    window.onload = function () {
+      const savedTheme = localStorage.getItem("theme");
+      const body = document.body;
+
+      if (savedTheme === "light") {
         body.classList.remove("dark-mode");
         body.classList.add("light-mode");
-      } else if (theme === "dark") {
-        body.classList.add("dark-mode");
-        body.classList.remove("light-mode");
       } else {
-        const hour = new Date().getHours();
-        const isDay = hour >= 6 && hour < 18;
-        body.classList.add(isDay ? "light-mode" : "dark-mode");
-        body.classList.remove(isDay ? "dark-mode" : "light-mode");
+        body.classList.remove("light-mode");
+        body.classList.add("dark-mode");
       }
-    }
+    };
   </script>
 </body>
 </html>
