@@ -47,12 +47,14 @@
   <h1 id="title">🍽️ What to Eat Tonight?</h1>
   <button class="mode-btn" onclick="toggleMode()">🌓</button>
   <button class="lang-btn" onclick="toggleLang()">🌐</button>
+
   <div class="container">
-<p id="result"></p>
     <p id="desc">Tap a button to randomly choose or pick a category:</p>
     <button class="random-btn" onclick="chooseDinner()">🎲 Random</button>
     <div id="category-buttons"></div>
+    <p id="result"></p>
   </div>
+
   <script>
     const data = {
       en: {
@@ -106,39 +108,45 @@
         }
       }
     };  
+ 
     let currentLang = "en";
+
     function renderText() {
       document.getElementById("title").textContent = data[currentLang].title;
       document.getElementById("desc").textContent = data[currentLang].desc;
       document.querySelector(".random-btn").textContent = data[currentLang].buttonText;
       renderButtons();
     }
-	function renderButtons() {
-      　const categoryButtons = document.getElementById("category-buttons");
-      　categoryButtons.innerHTML = "";
-      　const categories = data[currentLang].categories;
-      　for (let key in categories) {
-	const btn = document.createElement("button");
+
+    function renderButtons() {
+      const categoryButtons = document.getElementById("category-buttons");
+      categoryButtons.innerHTML = "";
+      const categories = data[currentLang].categories;
+      for (let key in categories) {
+        const btn = document.createElement("button");
         btn.className = "category-btn";
         btn.textContent = key;
         btn.onclick = () => chooseDinner(key);
         categoryButtons.appendChild(btn);
       }
     }
-	  function chooseDinner(category) {
-	　const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
-  	　const pick = items[Math.floor(Math.random() * items.length)];
-  	　document.getElementById("result").textContent = pick;
-　	　window.open("", "_blank").document.write(`<h2 style="font-size:2em;text-align:center;">${pick}</h2>`);
-}
-    	function toggleLang() {
-      　currentLang = currentLang === "en" ? "zh" : "en";
-	renderText();
+
+    function chooseDinner(category) {
+      const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
+      const pick = items[Math.floor(Math.random() * items.length)];
+      document.getElementById("result").textContent = pick;
     }
-	function toggleMode() {
-      　document.body.classList.toggle("dark-mode");
-      　document.body.classList.toggle("light-mode");
+
+    function toggleLang() {
+      currentLang = currentLang === "en" ? "zh" : "en";
+      renderText();
     }
+
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("light-mode");
+    }
+
     renderText();
   </script>
 </body>
