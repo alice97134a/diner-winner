@@ -5,213 +5,148 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>What to Eat Tonight 🍽️</title>
   <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 50px;
-    margin: 0;
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  .dark-mode {
-    background-color: #000000;
-    color: #ffffff;
-  }
-
-  .light-mode {
-    background-color: #f5f5f5;
-    color: #333333;
-  }
-
-  h1 {
-    margin-top: 0;
-    color: #fff;
-  }
-
-  .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1);
-    background: #1c1c1c;
-    transition: background-color 0.3s;
-  }
-
-  .light-mode .container {
-    background: white;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  button {
-    margin: 5px;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    color: white;
-  }
-
-  .random-btn {
-    background-color: #7a9e9f;
-  }
-
-  .category-btn {
-    background-color: #ff9a8b;
-  }
-
-  .mode-btn {
-    background-color: #444;
-  }
-
-  #result {
-    font-size: 22px;
-    margin-top: 20px;
-    font-weight: bold;
-    color: #f0e68c;
-  }
-</style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode { background-color: #111; color: #eee; }
+    .light-mode { background-color: #fff; color: #111; }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      color: white;
+    }
+    .random-btn { background-color: #7a9e9f; }
+    .category-btn { background-color: #ff9a8b; }
+    .mode-btn { background-color: #444; }
+    .lang-btn { background-color: #666; }
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      button { width: 100%; margin: 5px 0; }
+    }
+  </style>
 </head>
 <body class="dark-mode">
-  <h1 id="title"></h1>
+  <h1 id="title">🍽️ What to Eat Tonight?</h1>
   <button class="mode-btn" onclick="toggleMode()">🌓</button>
   <button class="lang-btn" onclick="toggleLang()">🌐</button>
+
   <div class="container">
-    <p id="desc"></p>
-    <button class="random-btn" onclick="chooseDinner()"></button>
+    <p id="desc">Tap a button to randomly choose or pick a category:</p>
+    <button class="random-btn" onclick="chooseDinner()">🎲 Random</button>
     <div id="category-buttons"></div>
     <p id="result"></p>
   </div>
+
   <script>
     const data = {
       en: {
         title: "🍽️ What to Eat Tonight?",
         desc: "Tap a button to randomly choose or pick a category:",
         buttonText: "🎲 Random",
-        categoryNames: {
- Chinese: "🇨🇳 Chinese",
- Japanese: "🇯🇵 Japanese",
- Italian: "🇮🇹 Italian",
- American: "🇺🇸 American",
- Healthy Choice: "🥗 Healthy Choice",
- Korean: "🇰🇷 Korean",
- Vietnamese: "🇻🇳 Vietnamese",
- Thai: "🇹🇭 Thai",
- French: "🇫🇷 French",
- HotPot: "🍲 Hot Pot",
- Snacks: "🥟 Snacks",
- Baked: "🥐 Baked",
- FastFood: "🏪 Fast Food",
- Dessert: "🍰 Dessert",
- Drinks: "☕ Drinks",
- Buffet: "🔥 Buffet",
- Pastaaa: "🍝 Pasta",
- Try Something New: "🌍 Try Something New"
-        },
-categories: {
-          Chinese: ["🍚 Fried Rice", "🍜 Braised Beef Noodles", "🌶️ Mapo Tofu", "🍚 Braised Pork Rice", "🥟 Boiled Dumplings", "🥢 Kung Pao Chicken + Rice", "🌶️🍛 Mapo Tofu + Rice", "🍚🥚 Braised Pork Rice + Soft-Boiled Egg", "🍲🐮 Braised Beef with Rice", "🍚🔥 Claypot Rice (Chicken / Sausage)", "🍚🥬 Shanghai Veggie Rice", "🍲🐟 Congee (Century Egg / Seafood)", "🍖🍚 Xinjiang Pilaf", "🐔🧄 White Cut Chicken + Ginger Scallion Sauce", "🍍🐷 Sweet & Sour Pork", "🍚🐷 Braised Pork Belly Rice", "🍖🍚 Dongpo Pork Rice", "🍚🍖 Roasted Meats Rice", "🍜🐮 Beef Noodle Soup", "🍝🥒 Zha Jiang Noodles", "🍜🔪 Knife-Cut Noodles", "🍜🥩 Stir-fried Mixed Noodles", "🍗🍝 Big Plate Chicken + Noodles", "🌶️🍜 Dan Dan Noodles", "🦞🍜 Lobster Yee Mee", "🍜🍳 Shanghai Fried Thick Noodles", "🍜🥢 Thin Noodle Soup", "🥢🐜 Ants Climbing a Tree", "🍜🌶️ Guilin Rice Noodles", "🌶️🍜 Luosifen (Snail Noodles)", "🥩🔥 Grilled Short Ribs", "🍖🥯 Lamb Skewers + Toasted Buns", "🍗🔥 Grilled Chicken Wings", "🦑🔥 Grilled Squid", "🌿🔥 Grilled Chives", "🍆🔥 Grilled Eggplant", "🦆🔥 Peking Duck", "🐷🔥 Honey Char Siu", "🌶️🐔 Mouthwatering Chicken", "🧄🥩 Scallion Beef Stir-fry", "🦐🔥 Salted Crispy Shrimp" ],
-          Japanese: ["🍣 Sushi", "🍜 Ramen", "🍛 Curry Rice", "🍖 Tonkatsu (Fried Pork Cutlet)", "🥚🍚 Oyako Don (Chicken & Egg Rice Bowl)", "🍜 Udon Noodles", "🐟 Sashimi", "🍢 Teriyaki Chicken", "🐙 Takoyaki (Octopus Balls)", "🍤 Tempura", "🍙 Onigiri (Rice Ball)", "🍲 Sukiyaki", "🐙 Tako Wasabi (Raw Octopus with Wasabi)" ],
-          Italian: ["🍝 Pasta", "🍕 Pizza", "🍅 Tomato Risotto", "🍲 Lasagna", "🥗 Caesar Salad", "🥩 Italian Beef Stew", "🍰 Tiramisu", "☕ Cappuccino", "🍞 Focaccia", "🍄 Truffle Risotto" ],
-          American: ["🍔 Burger", "🍗 Fried Chicken", "🥩 Steak", "🍟 French Fries", "🔥 BBQ Ribs", "🌭 Hot Dog", "🐟 Fish and Chips", "🌮 Beef Taco", "🧅 Onion Rings", "🥜 Peanut Butter Sandwich" ],
-          Healthy Choice: ["🥗 Salad", "🍗🔥 Grilled Chicken Breast", "🥣 Oatmeal", "🥦🥕 Vegetable Soup", "🍽️ Tofu Dishes", "🥜🥛 Nut Yogurt", "🥗🍚 Quinoa Salad", "🥪 Whole Wheat Sandwich", "🥬🍏 Green Smoothie", "🥚 Boiled Egg", "🥑🍞 Avocado Toast", "🍣🌱 Vegan Sushi", "🥬🍹 Green Latte", "🍯🥣 Greek Yogurt Bowl" ],
-          Korean: ["🍗 Korean Fried Chicken", "🍲 Bibimbap (Hot Stone Bowl Rice)", "🌶️ Kimchi Stew", "🍜 Budae Jjigae (Army Stew)", "🔥 Korean BBQ", "🍚 Kimchi Fried Rice", "🌶️ Tteokbokki (Spicy Rice Cakes)", "🍲 Doenjang Jjigae (Soybean Paste Stew)", "🥞 Korean Pancake", "🍜 Naengmyeon (Cold Noodles)", "🍢 Sundae (Korean Blood Sausage)", "🥩🔥 Grilled Beef Intestines" ],
-          Vietnamese: ["🍜 Vietnamese Pho", "🥖 Banh Mi (Vietnamese Baguette Sandwich)", "🥢 Vietnamese Spring Rolls", "🍗 Chicken Rice", "🍜 Vermicelli Salad", "🦐 Sugarcane Shrimp", "🍚 Vietnamese Fried Rice", "🍋 Lemongrass Grilled Chicken", "🐮 Beef Pho", "☕ Vietnamese Coffee"],
+        categories: {
+          Chinese: ["🍚 Fried Rice", "🍜 Braised Beef Noodles", "🌶️ Mapo Tofu", "🍚 Braised Pork Rice", "🥟 Boiled Dumplings", "🥢 Kung Pao Chicken + Rice", "🌶️🍛 Mapo Tofu + Rice", "🍚🥚 Braised Pork Rice + Soft-Boiled Egg", "🍲🐮 Braised Beef with Rice", "🍚🔥 Claypot Rice (Chicken / Sausage)", "🍚🥬 Shanghai Veggie Rice", "🍲🐟 Congee (Century Egg / Seafood)", "🍖🍚 Xinjiang Pilaf", "🐔🧄 White Cut Chicken + Ginger Scallion Sauce", "🍍🐷 Sweet & Sour Pork", "🍚🐷 Braised Pork Belly Rice", "🍖🍚 Dongpo Pork Rice", "🍚🍖 Roasted Meats Rice", "🍜🐮 Beef Noodle Soup", "🍝🥒 Zha Jiang Noodles", "🍜🔪 Knife-Cut Noodles", "🍜🥩 Stir-fried Mixed Noodles", "🍗🍝 Big Plate Chicken + Noodles", "🌶️🍜 Dan Dan Noodles", "🦞🍜 Lobster Yee Mee", "🍜🍳 Shanghai Fried Thick Noodles", "🍜🥢 Thin Noodle Soup", "🥢🐜 Ants Climbing a Tree", "🍜🌶️ Guilin Rice Noodles", "🌶️🍜 Luosifen (Snail Noodles)", "🥩🔥 Grilled Short Ribs", "🍖🥯 Lamb Skewers + Toasted Buns", "🍗🔥 Grilled Chicken Wings", "🦑🔥 Grilled Squid", "🌿🔥 Grilled Chives", "🍆🔥 Grilled Eggplant", "🦆🔥 Peking Duck", "🐷🔥 Honey Char Siu", "🌶️🐔 Mouthwatering Chicken", "🧄🥩 Scallion Beef Stir-fry", "🦐🔥 Salted Crispy Shrimp"],
+          Japanese: ["🍣 Sushi", "🍜 Ramen", "🍛 Curry Rice", "🍖 Tonkatsu (Fried Pork Cutlet)", "🥚🍚 Oyako Don (Chicken & Egg Rice Bowl)", "🍜 Udon Noodles", "🐟 Sashimi", "🍢 Teriyaki Chicken", "🐙 Takoyaki (Octopus Balls)", "🍤 Tempura", "🍙 Onigiri (Rice Ball)", "🍲 Sukiyaki", "🐙 Tako Wasabi (Raw Octopus with Wasabi)"],
+          Italian:  Italian: ["🍝 Pasta", "🍕 Pizza", "🍅 Tomato Risotto", "🍲 Lasagna", "🥗 Caesar Salad", "🥩 Italian Beef Stew", "🍰 Tiramisu", "☕ Cappuccino", "🍞 Focaccia", "🍄 Truffle Risotto"],
+          American: ["🍔 Burger", "🍗 Fried Chicken", "🥩 Steak", "🍟 French Fries", "🔥 BBQ Ribs", "🌭 Hot Dog", "🐟 Fish and Chips", "🌮 Beef Taco", "🧅 Onion Rings", "🥜 Peanut Butter Sandwich"],
+          Healthy Choice: ["🥗 Salad", "🍗🔥 Grilled Chicken Breast", "🥣 Oatmeal", "🥦🥕 Vegetable Soup", "🍽️ Tofu Dishes", "🥜🥛 Nut Yogurt", "🥗🍚 Quinoa Salad", "🥪 Whole Wheat Sandwich", "🥬🍏 Green Smoothie", "🥚 Boiled Egg", "🥑🍞 Avocado Toast", "🍣🌱 Vegan Sushi", "🥬🍹 Green Latte", "🍯🥣 Greek Yogurt Bowl"],
+          Korean: ["🍗 Korean Fried Chicken", "🍲 Bibimbap (Hot Stone Bowl Rice)", "🌶️ Kimchi Stew", "🍜 Budae Jjigae (Army Stew)", "🔥 Korean BBQ", "🍚 Kimchi Fried Rice", "🌶️ Tteokbokki (Spicy Rice Cakes)", "🍲 Doenjang Jjigae (Soybean Paste Stew)", "🥞 Korean Pancake", "🍜 Naengmyeon (Cold Noodles)", "🍢 Sundae (Korean Blood Sausage)", "🥩🔥 Grilled Beef Intestines"],
+Vietnamese: ["🍜 Vietnamese Pho", "🥖 Banh Mi (Vietnamese Baguette Sandwich)", "🥢 Vietnamese Spring Rolls", "🍗 Chicken Rice", "🍜 Vermicelli Salad", "🦐 Sugarcane Shrimp", "🍚 Vietnamese Fried Rice", "🍋 Lemongrass Grilled Chicken", "🐮 Beef Pho", "☕ Vietnamese Coffee"],
           Thai: ["🍛🌿 Thai Green Curry", "🍲🦐 Tom Yum Soup (Spicy Seafood Soup)", "🍚🐷 Thai Basil Pork Rice", "🍜🥜 Pad Thai (Stir-fried Rice Noodles)", "🥥🍲 Tom Kha Gai (Coconut Chicken Soup)", "🥭🍚 Mango Sticky Rice", "🍗🔥 Gai Yang (Thai Grilled Chicken)", "🌶️🐟 Steamed Fish with Lime and Chili", "🍤 Thai Shrimp Cakes", "🥗 Som Tam (Green Papaya Salad)", "🍤🦀 Thai Yellow Curry Crab", "🍲🐟 Khao Soi (Northern Thai Curry Noodles)", "🥥🍛 Thai Red Curry", "🥜🐔 Thai Chicken Satay Skewers", "🍹 Thai Milk Tea", "🥥 Coconut Smoothie"],
           French: ["🍷 Red Wine Chicken Stew", "🍲 French Beef Stew", "🍆🍅 Ratatouille", "🦆🍊 Duck Breast with Orange Sauce", "🦞🔥 Baked Lobster", "🥖 Baguette", "🧀 Cheese Platter"],
-          HotPot: ["🐑🍲 Lamb Hot Pot", "🐔 Fish Maw Chicken Soup", "🥢🐷 Pork Tripe Chicken Soup", "🐟🍲 Pickled Fish + Rice", "🌶️🍲 Kimchi Tofu Soup", "🍵🐷 Cantonese Slow-Boiled Soup", "🍲🥢 Buddha Jumps Over the Wall", "🐟🍲 Fish Head Casserole", "🧄🍲 Creamy Onion Soup", "🌶️🥣 Hot and Sour Soup", "🍲🦞 Lobster Soup"], 
+HotPot: ["🐑🍲 Lamb Hot Pot", "🐔 Fish Maw Chicken Soup", "🥢🐷 Pork Tripe Chicken Soup", "🐟🍲 Pickled Fish + Rice", "🌶️🍲 Kimchi Tofu Soup", "🍵🐷 Cantonese Slow-Boiled Soup", "🍲🥢 Buddha Jumps Over the Wall", "🐟🍲 Fish Head Casserole", "🧄🍲 Creamy Onion Soup", "🌶️🥣 Hot and Sour Soup", "🍲🦞 Lobster Soup"],
           Snacks: ["🥟 Dumplings", "🥟🔥 Pan-fried Dumplings", "🥢🐷 Steamed Buns", "🍔🐷 Roujiamo (Chinese Burger)", "🍜🥟 Wontons", "🥟🔥 Shengjian Bao (Pan-fried Buns)", "🥞🧄 Scallion Pancake", "🍳 Fried Egg", "🥚 Egg Crepe", "🍢 Braised Snacks", "🍗 Popcorn Chicken", "🍮 Douhua (Tofu Pudding)", "🥣 Tangyuan (Glutinous Rice Balls)", "🥟 Chive Pockets", "🍡 Glutinous Rice Balls (Mochi Style)", "🌽 Grilled Corn", "🍘 Pan-fried Rice Cake", "🥔 Sweet Potato Balls", "🦑 Fried Squid", "🦐 Fried Shrimp", "🥖 Jianbing (Chinese Crepe Roll)", "🍤 Tempura Shrimp", "🌭 Corn Dog", "🍘 Rice Crackers", "🥜 Peanut Candy", "🍞 Donut", "🥔 French Fries", "🧀 Cheese Sticks", "🥓 Fried Bacon Rolls", "🍢 Takoyaki", "🦪 Fried Oysters", "🌮 Mexican Taco", "🍗 Chicken Nuggets", "🧄 Roasted Garlic", "🌰 Roasted Chestnuts", "🍠 Roasted Sweet Potato", "🥒 Cold Pickled Cucumber", "🌶️ Tteokbokki", "🍗 Korean Fried Chicken", "🥨 Pretzel", "🍯 Honey Toast", "🍘 Mochi", "🥙 Shawarma", "🌮 Chinese Pancake Roll", "🍛 Japanese Croquette", "🥠 Fortune Cookie", "🍢 Skewers (Chuan Chuan Xiang)", "🍖 Mini Meat Skewers", "🥚 Tea Egg", "🍗 Drumsticks", "🍞 Butter Thick Toast", "🍚 Fried Rice Ball", "🦑 Shredded Squid", "🍠 Sweet Potato Fries"],
           Baked: ["🥐 Croissant", "🥖 Baguette", "🍞 Toast", "🥞 Pancake", "🍰 Sponge Cake", "🍞 Brioche", "🍩 Donut", "🥨 German Pretzel", "🍪 Cookie", "🥧 Apple Pie", "🍞 Danish Pastry", "🥯 Bagel", "🍞 Banana Bread", "🍞 Focaccia", "🥯 Butter Scone", "🥖 Ciabatta", "🍞 Garlic Bread", "🍰 Basque Cheesecake", "🥞 Dutch Mini Pancakes (Poffertjes)"],
           FastFood: ["🍔 McDonald's", "🍕 Pizza Pizza", "☕ Tim Hortons", "🍔 Wendy's", "🍔 Hero Burger", "🌮 Taco Bell", "🍗 Popeyes", "🥪 Subway", "🍗 KFC", "🍔 Five Guys"],
           Dessert: ["🍰 Tiramisu", "🍪 Macaron", "🧋 Bubble Tea", "🍰 Cupcake", "🥭🍚 Mango Sticky Rice", "🍦 Fresh Fruit Ice Cream", "🥞 French Crepe", "🍩 Donut", "🥧 Apple Pie", "🍮 Crème Brûlée", "🍫 Brownie", "🍰 Red Velvet Cake", "🍩 Mochi Donut", "🥠 Taiwanese Wedding Cookie", "🍮 Japanese Cheesecake", "🥜 Peanut Brittle", "🥛 Milk Pudding", "🍳 Salted Egg Yolk Pastry", "🍍 Pineapple Cake", "🥚 Soufflé"],
           Drinks: ["☕ Coffee", "🍵 Tea", "🥤 Soda", "🍹 Cocktail", "🥛 Fresh Milk", "🍵 Matcha Latte", "🥥 Coconut Water", "🍎 Apple Juice", "🍊 Orange Juice", "🍋 Lemon Water", "🥤 Sparkling Water", "🍹 Berry Smoothie", "🍶 Sake", "🍷 Red Wine", "🍾 Champagne"],
           Buffet: ["🔥 BBQ Buffet", "🍰 Dessert Buffet", "🍤 Fried Food Buffet", "🍣 Sushi Buffet", "🦞 Seafood Buffet", "🍽️ All-You-Can-Eat"],
-          Pastaaa: ["🍅 Tomato Pasta", "🥓 Carbonara (Creamy Bacon Pasta)", "🌿 Pesto Pasta", "🦪 Garlic White Wine Clam Pasta", "🍖 Bolognese Pasta", "🍄 Truffle Mushroom Pasta", "🦐 Seafood Pasta", "🌰 Black Truffle Cream Pasta", "🦑 Mentaiko Pasta", "🎃 Pumpkin Cream Pasta", "🐟 Tuna Tomato Pasta", "🌶️ Spicy Garlic Pasta", "🦆 Smoked Duck Breast Pasta", "🐔 Creamy Chicken Spinach Pasta", "🥬 Truffle Cream Spinach Pasta", "🥦 Vegetarian Green Curry Pasta", "🖤 Squid Ink Pasta", "🧀 Truffle Parmesan Pasta", "🌼 Saffron Cream Pasta"],
-          Try Something New: ["🥩 Argentinian BBQ (Asado)", "🍖 Brazilian BBQ (Churrasco)", "🔥 Mexican Grilled Meat (Carne Asada)", "🥓 Japanese Skewers (Yakitori, Yakiniku)", "🍢 Thai Grilled Pork Skewers (Moo Ping)", "🍲 Malaysian Curry Laksa", "🍜 Singaporean Bak Kut Teh", "🍝 Hungarian Beef Stew Pasta (Goulash)", "🍜 Vietnamese Crab Noodle Soup (Bún Riêu)", "🍛 Indian Butter Chicken with Basmati Rice", "🍚 Filipino Braised Pork Rice (Adobo)", "🍚 Spanish Seafood Paella", "🍚 Egyptian Chicken Rice (Koshari)", "🍲 Korean Ox Bone Soup (Seolleongtang)", "🍲 Thai Tom Kha Gai", "🍲 Russian Borscht", "🍲 French Fish Soup (Bouillabaisse)", "🧀 Swiss Cheese Fondue", "🥞 French Crêpes", "🍠 Japanese Roasted Sweet Potato (Yaki-Imo)", "🍩 Portuguese Egg Tart (Pastel de Nata)", "🍞 German Butter Roll (Schnecken)", "🐟 Icelandic Fermented Shark (Hákarl)", "🐑 Mongolian Khorkhog (Hand-Pulled Lamb)", "🦆 Chinese Salted Duck", "🦘 Australian Kangaroo Steak", "🥩 Algerian Sheep Head Soup (Bouzelouf)", "🌶️🧄 Stinky Tofu", "🥔 Swiss Rösti (Grated Potato Pancake)"],
-      }
+          Spaghetti: ["🍅 Tomato Pasta", "🥓 Carbonara (Creamy Bacon Pasta)", "🌿 Pesto Pasta", "🦪 Garlic White Wine Clam Pasta", "🍖 Bolognese Pasta", "🍄 Truffle Mushroom Pasta", "🦐 Seafood Pasta", "🌰 Black Truffle Cream Pasta", "🦑 Mentaiko Pasta", "🎃 Pumpkin Cream Pasta", "🐟 Tuna Tomato Pasta", "🌶️ Spicy Garlic Pasta", "🦆 Smoked Duck Breast Pasta", "🐔 Creamy Chicken Spinach Pasta", "🥬 Truffle Cream Spinach Pasta", "🥦 Vegetarian Green Curry Pasta", "🖤 Squid Ink Pasta", "🧀 Truffle Parmesan Pasta", "🌼 Saffron Cream Pasta"],
+          New: ["🥩 Argentinian BBQ (Asado)", "🍖 Brazilian BBQ (Churrasco)", "🔥 Mexican Grilled Meat (Carne Asada)", "🥓 Japanese Skewers (Yakitori, Yakiniku)", "🍢 Thai Grilled Pork Skewers (Moo Ping)", "🍲 Malaysian Curry Laksa", "🍜 Singaporean Bak Kut Teh", "🍝 Hungarian Beef Stew Pasta (Goulash)", "🍜 Vietnamese Crab Noodle Soup (Bún Riêu)", "🍛 Indian Butter Chicken with Basmati Rice", "🍚 Filipino Braised Pork Rice (Adobo)", "🍚 Spanish Seafood Paella", "🍚 Egyptian Chicken Rice (Koshari)", "🍲 Korean Ox Bone Soup (Seolleongtang)", "🍲 Thai Tom Kha Gai", "🍲 Russian Borscht", "🍲 French Fish Soup (Bouillabaisse)", "🧀 Swiss Cheese Fondue", "🥞 French Crêpes", "🍠 Japanese Roasted Sweet Potato (Yaki-Imo)", "🍩 Portuguese Egg Tart (Pastel de Nata)", "🍞 German Butter Roll (Schnecken)", "🐟 Icelandic Fermented Shark (Hákarl)", "🐑 Mongolian Khorkhog (Hand-Pulled Lamb)", "🦆 Chinese Salted Duck", "🦘 Australian Kangaroo Steak", "🥩 Algerian Sheep Head Soup (Bouzelouf)", "🌶️🧄 Stinky Tofu", "🥔 Swiss Rösti (Grated Potato Pancake)"]
+        }
       },
       zh: {
         title: "🍽️ 今晚吃什麼？",
         desc: "點擊按鈕隨機選擇，或選擇餐點類型：",
         buttonText: "🎲 隨機選擇",
-        categoryNames: {
-  中式: "🇨🇳 中式",
-  日式: "🇯🇵 日式",
-  義式: "🇮🇹 義式",
-  美式: "🇺🇸 美式",
-  健康選擇: "🥗 健康選擇",
-  韓式: "🇰🇷 韓式",
-  越式: "🇻🇳 越式",
-  泰式: "🇹🇭 泰式",
-  法式: "🇫🇷 法式",
-  湯鍋類: "🍲 湯鍋類",
-  小食: "🥟 小食",
-  烘培: "🥐 烘培",
-  速食: "🏪 速食",
-  甜點: "🍰 甜點",
-  飲料: "☕ 飲料",
-  吃到飽: "🔥 吃到飽",
-  義大利麵特區: "🍝 義大利麵特區",
-  新鮮體驗: "🌍 新鮮體驗"
-},
         categories: {
           中式: ["🍚 炒飯", "🍜 紅燒牛肉麵", "🌶️ 麻婆豆腐", "🍚 滷肉飯", "🥟 水餃", "🥢 宮保雞丁 + 白飯", "🌶️🍛 麻婆豆腐 + 白飯", "🍚🥚 滷肉飯 + 半熟蛋", "🍲🐮 紅燒牛肉飯", "🍚🔥 煲仔飯（滑雞 / 臘味）", "🍚🥬 上海菜飯", "🍲🐟 生滾粥（皮蛋瘦肉粥 / 海鮮粥）", "🍖🍚 新疆手抓飯", "🐔🧄 白斬雞 + 薑蔥醬", "🍍🐷 咕嚕肉（糖醋里肌）", "🍚🐷 扣肉飯", "🍖🍚 東坡肉飯", "🍚🍖 燒臘飯（叉燒 / 燒鴨 / 燒肉）", "🍜🐮 紅燒牛肉麵", "🍝🥒 炸醬麵", "🍜🔪 刀削麵", "🍜🥩 炒碼麵", "🍗🍝 新疆大盤雞 + 拌麵", "🌶️🍜 擔擔麵", "🦞🍜 龍蝦伊麵", "🍜🍳 上海粗炒", "🍜🥢 麵線糊", "🥢🐜 螞蟻上樹（粉絲炒肉末）", "🍜🌶️ 桂林米粉", "🌶️🍜 螺螄粉", "🥩🔥 牛仔骨（烤 / 燒汁）", "🍖🥯 東北烤羊肉串 + 烤饅頭片", "🍗🔥 烤雞翅", "🦑🔥 烤魷魚", "🌿🔥 烤韭菜", "🍆🔥 烤茄子", "🦆🔥 北京烤鴨", "🐷🔥 蜜汁叉燒", "🌶️🐔 口水雞", "🧄🥩 蔥爆牛肉", "🦐🔥 鹽酥蝦"],
-          日式: ["🍣 壽司", "🍜 拉麵", "🍛 咖哩飯", "🍖 炸豬排", "🥚🍚 親子丼", "🍜 烏龍麵", "🐟 刺身", "🍢 照燒雞", "🐙 章魚燒", "🍤 天婦羅", "🍙 御飯糰", "🍲 壽喜燒", "🐙 生章魚（Tako Wasabi）"],
+          日式: ["🍣 壽司", "🍜 拉麵", "🍛 咖哩飯", "🍖 炸豬排", "🥚🍚 親子丼", "🍜 烏龍麵", "🐟 刺身", "🍢 照燒雞", "🐙 章魚燒", "🍤 天婦羅", "🍙 御飯糰", "🍲 壽喜燒", "🐙 生章魚"],
           義式: ["🍝 義大利麵", "🍕 披薩", "🍅 番茄燉飯", "🍲 千層麵", "🥗 凱撒沙拉", "🥩 義式燉牛肉", "🍰 提拉米蘇", "☕ 卡布奇諾", "🍞 義式薄餅", "🍄 松露燉飯"],
           美式: ["🍔 漢堡", "🍗 炸雞", "🥩 牛排", "🍟 薯條", "🔥 BBQ 烤肉", "🌭 熱狗", "🐟 炸魚薯條", "🌮 牛肉塔可", "🧅 炸洋蔥圈", "🥜 花生醬三明治"],
-          健康選擇: ["🥗 沙拉", "🍗🔥 烤雞胸",　"🥣 燕麥粥",　"🥦🥕 蔬菜湯",　"🍽️ 豆腐料理",　"🥜🥛 堅果優格",　"🥗🍚 藜麥沙拉",　"🥪 全麥三明治",　"🥬🍏 綠色果昔",　"🥚 水煮蛋",　"🥑🍞 酪梨吐司",　"🍣🌱 全素壽司",　"🥬🍹 綠拿鐵",　"🍯🥣 希臘優格碗"],
+          健康選擇: ["🥗 沙拉", "🍗🔥 烤雞胸", "🥣 燕麥粥", "🥦🥕 蔬菜湯", "🍽️ 豆腐料理", "🥜🥛 堅果優格", "🥗🍚 藜麥沙拉", "🥪 全麥三明治", "🥬🍏 綠色果昔", "🥚 水煮蛋", "🥑🍞 酪梨吐司", "🍣🌱 全素壽司", "🥬🍹 綠拿鐵", "🍯🥣 希臘優格碗"],
           韓式: ["🍗 韓式炸雞", "🍲 石鍋拌飯", "🌶️ 泡菜鍋", "🍜 部隊鍋", "🔥 韓式烤肉", "🍚 泡菜炒飯", "🌶️ 辣炒年糕", "🍲 大醬湯", "🥞 韓式煎餅", "🍜 冷麵", "🍢 血腸", "🥩🔥 烤牛腸"],
-          越式: ["🍜 越南河粉", "🥖 法國麵包三明治", "🥢 越式春捲", "🍗 雞肉飯", "🍜 涼拌米線", "🦐 甘蔗蝦", "🍚 越式炒飯", "🍋 檸檬草烤雞", "🐮 牛肉粉", "☕ 越式咖啡"],
+越式: ["🍜 越南河粉", "🥖 法國麵包三明治", "🥢 越式春捲", "🍗 雞肉飯", "🍜 涼拌米線", "🦐 甘蔗蝦", "🍚 越式炒飯", "🍋 檸檬草烤雞", "🐮 牛肉粉", "☕ 越式咖啡"],
           泰式: ["🍛🌿 泰式綠咖哩", "🍲🦐 冬蔭功（酸辣海鮮湯）", "🍚🐷 泰式打拋豬", "🍜🥜 泰式炒河粉（Pad Thai）", "🥥🍲 椰漿雞湯（Tom Kha Gai）", "🥭🍚 芒果糯米飯", "🍗🔥 泰式烤雞（Gai Yang）", "🌶️🐟 泰式檸檬蒸魚", "🍤 泰式蝦餅", "🥗 青木瓜沙拉（Som Tam）", "🍤🦀 泰式黃咖哩蟹", "🍲🐟 泰北咖哩麵（Khao Soi）", "🥥🍛 泰式紅咖哩", "🥜🐔 泰式沙嗲雞串", "🍹 泰式奶茶", "🥥 椰子冰沙"],
           法式: ["🍷 紅酒燉雞", "🍲 法式燉牛肉", "🍆🍅 普羅旺斯燉菜", "🦆🍊 鴨胸佐橙醬", "🦞🔥 法式焗龍蝦", "🥖 法棍", "🧀 起司拼盤"],
-          湯鍋類: ["🐑🍲 羊肉爐", "🐔 花膠雞", "🥢🐷 豬肚雞", "🐟🍲 酸菜魚 + 白飯", "🌶️🍲 泡菜豆腐湯", "🍵🐷 老火煲湯", "🍲🥢 佛跳牆", "🐟🍲 砂鍋魚頭", "🧄🍲 奶油洋蔥湯", "🌶️🥣 酸辣湯", "🍲🦞 龍蝦湯"],
+	湯鍋類: ["🐑🍲 羊肉爐", "🐔 花膠雞", "🥢🐷 豬肚雞", "🐟🍲 酸菜魚 + 白飯", "🌶️🍲 泡菜豆腐湯", "🍵🐷 老火煲湯", "🍲🥢 佛跳牆", "🐟🍲 砂鍋魚頭", "🧄🍲 奶油洋蔥湯", "🌶️🥣 酸辣湯", "🍲🦞 龍蝦湯"],
           小食: ["🥟 餃子", "🥟🔥 煎餃", "🥢🐷 包子", "🍔🐷 肉夾饃", "🍜🥟 餛飩", "🥟🔥 生煎包", "🥞🧄 蔥油餅", "🍳 煎蛋", "🥚 蛋餅", "🍢 滷味", "🍗 鹹酥雞", "🍮 豆花", "🥣 湯圓", "🥟 韭菜盒子", "🍡 糯米糍", "🌽 烤玉米", "🍘 煎年糕", "🥔 地瓜球", "🦑 炸魷魚", "🦐 炸蝦", "🥖 煎餅果子", "🍤 炸蝦天婦羅", "🌭 玉米熱狗", "🍘 米果", "🥜 花生糖", "🍞 甜甜圈", "🥔 炸薯條", "🧀 起司棒", "🥓 炸培根捲", "🍢 章魚燒", "🦪 炸牡蠣", "🌮 墨西哥塔可", "🍗 炸雞塊", "🧄 烤大蒜", "🌰 烤栗子", "🍠 烤地瓜", "🥒 涼拌黃瓜", "🌶️ 辣炒年糕", "🍗 韓式炸雞", "🥨 鹹脆餅", "🍯 蜜糖吐司", "🍘 麻糬", "🥙 沙威瑪", "🌮 煎餅捲", "🍛 日式可樂餅", "🥠 幸運餅乾", "🍢 串串香", "🍖 小肉串", "🥚 茶葉蛋", "🍗 棒棒腿", "🍞 奶油厚片", "🍚 炸飯糰", "🦑 魷魚絲", "🍠 紅薯條"],
           烘培: ["🥐 可頌", "🥖 法棍", "🍞 吐司", "🥞 鬆餅", "🍰 海綿蛋糕", "🍞 布里歐麵包", "🍩 甜甜圈", "🥨 德式椒鹽脆餅", "🍪 餅乾", "🥧 蘋果派", "🍞 丹麥麵包", "🥯 貝果", "🍞 香蕉蛋糕", "🍞 佛卡夏", "🥯 奶油司康", "🥖 齊亞巴塔", "🍞 香蒜麵包", "🍰 巴斯克乳酪蛋糕", "🥞 荷蘭小鬆餅（Poffertjes）"],
           速食: ["🍔 麥當勞", "🍕 Pizza Pizza", "☕ Tim Hortons", "🍔 Wendy's", "🍔 Hero", "🌮 Taco Bell", "🍗 Popeyes", "🥪 Subway", "🍗 KFC", "🍔 Five Guys"],
           甜點: ["🍰 提拉米蘇", "🍪 馬卡龍", "🧋 珍珠奶茶", "🍰 杯子蛋糕", "🥭🍚 芒果糯米飯", "🍦 鮮果雪糕", "🥞 法式可麗餅", "🍩 甜甜圈", "🥧 蘋果派", "🍮 焦糖布丁", "🍫 布朗尼", "🍰 紅絲絨蛋糕", "🍩 波提甜甜圈", "🥠 臺灣囍餅", "🍮 日式芝士蛋糕", "🥜 花生糖", "🥛 奶凍", "🍳 蛋黃酥", "🍍 鳳梨酥", "🥚 舒芙雷"],
           飲料: ["☕ 咖啡", "🍵 茶", "🥤 碳酸飲料", "🍹 調酒", "🥛 鮮奶", "🍵 抹茶拿鐵", "🥥 椰子水", "🍎 蘋果汁", "🍊 柳橙汁", "🍋 檸檬水", "🥤 蘇打水", "🍹 莓果冰沙", "🍶 清酒", "🍷 紅酒", "🍾 香檳"],
           吃到飽: ["🔥 燒肉吃到飽", "🍰 甜點吃到飽", "🍤 炸物吃到飽", "🍣 壽司吃到飽", "🦞 海鮮吃到飽", "🍽️ 自助餐"],
-          義大利麵特區: ["🍅 番茄義大利麵", "🥓 奶油培根義大利麵", "🌿 青醬義大利麵", "🦪 蒜香白酒蛤蜊麵", "🍖 義式肉醬麵", "🍄 松露野菇義大利麵", "🦐 海鮮義大利麵", "🌰 黑松露奶油義大利麵", "🦑 明太子義大利麵", "🎃 南瓜奶油義大利麵", "🐟 茄汁鮪魚義大利麵", "🌶️ 辣味蒜香義大利麵", "🦆 煙燻鴨胸義大利麵", "🐔 奶油雞肉菠菜義大利麵", "🥬 松露奶油菠菜義大利麵", "🥦 素食綠咖哩義大利麵", "🖤 墨魚汁義大利麵", "🧀 松露帕瑪森起司義大利麵", "🌼 番紅花奶油義大利麵"],
-          新鮮體驗: ["🥩 阿根廷烤肉（Asado）", "🍖 巴西烤肉（Churrasco）", "🔥 墨西哥碳烤肉（Carne Asada）", "🥓 日式烤串（Yakitori, Yakiniku）", "🍢 泰式烤豬肉串（Moo Ping）", "🍲 馬來西亞咖哩叻沙（Laksa）", "🍜 新加坡肉骨茶（Bak Kut Teh）", "🍝 匈牙利牛肉麵（Goulash）", "🍜 越南蟹湯米線（Bún Riêu）", "🍛 印度黃咖哩飯（Butter Chicken + Basmati Rice）", "🍚 菲律賓燉豬肉飯（Adobo）", "🍚 西班牙海鮮飯（Paella）", "🍚 埃及雞肉飯（Koshari）", "🍲 韓國牛骨湯（Seolleongtang）", "🍲 泰國酸辣椰奶雞湯（Tom Kha Gai）", "🍲 俄羅斯羅宋湯（Borscht）", "🍲 法國魚湯（Bouillabaisse）", "🧀 瑞士起司鍋（Fondue）", "🥞 法國可麗餅（Crêpes）", "🍠 日式烤地瓜（Yaki-Imo）", "🍩 葡式蛋塔（Pastel de Nata）", "🍞 德國奶油捲（Schnecken）", "🐟 冰島發酵鯊魚（Hákarl）", "🐑 蒙古手扒羊（Khorkhog）", "🦆 中國鹽水鴨（Salted Duck）", "🦘 澳洲袋鼠肉（Kangaroo Steak）", "🥩 阿爾及利亞羊頭湯（Bouzelouf）", "🌶️🧄 臭豆腐", "🥔 瑞士烤馬鈴薯餅（Rösti）"],
+          義大利麵: ["🍅 番茄義大利麵", "🥓 奶油培根義大利麵", "🌿 青醬義大利麵", "🦪 蒜香白酒蛤蜊麵", "🍖 義式肉醬麵", "🍄 松露野菇義大利麵", "🦐 海鮮義大利麵", "🌰 黑松露奶油義大利麵", "🦑 明太子義大利麵", "🎃 南瓜奶油義大利麵", "🐟 茄汁鮪魚義大利麵", "🌶️ 辣味蒜香義大利麵", "🦆 煙燻鴨胸義大利麵", "🐔 奶油雞肉菠菜義大利麵", "🥬 松露奶油菠菜義大利麵", "🥦 素食綠咖哩義大利麵", "🖤 墨魚汁義大利麵", "🧀 松露帕瑪森起司義大利麵", "🌼 番紅花奶油義大利麵"],
+          新鮮體驗: ["🥩 阿根廷烤肉（Asado）", "🍖 巴西烤肉（Churrasco）", "🔥 墨西哥碳烤肉（Carne Asada）", "🥓 日式烤串（Yakitori, Yakiniku）", "🍢 泰式烤豬肉串（Moo Ping）", "🍲 馬來西亞咖哩叻沙（Laksa）", "🍜 新加坡肉骨茶（Bak Kut Teh）", "🍝 匈牙利牛肉麵（Goulash）", "🍜 越南蟹湯米線（Bún Riêu）", "🍛 印度黃咖哩飯（Butter Chicken + Basmati Rice）", "🍚 菲律賓燉豬肉飯（Adobo）", "🍚 西班牙海鮮飯（Paella）", "🍚 埃及雞肉飯（Koshari）", "🍲 韓國牛骨湯（Seolleongtang）", "🍲 泰國酸辣椰奶雞湯（Tom Kha Gai）", "🍲 俄羅斯羅宋湯（Borscht）", "🍲 法國魚湯（Bouillabaisse）", "🧀 瑞士起司鍋（Fondue）", "🥞 法國可麗餅（Crêpes）", "🍠 日式烤地瓜（Yaki-Imo）", "🍩 葡式蛋塔（Pastel de Nata）", "🍞 德國奶油捲（Schnecken）", "🐟 冰島發酵鯊魚（Hákarl）", "🐑 蒙古手扒羊（Khorkhog）", "🦆 中國鹽水鴨（Salted Duck）", "🦘 澳洲袋鼠肉（Kangaroo Steak）", "🥩 阿爾及利亞羊頭湯（Bouzelouf）", "🌶️🧄 臭豆腐", "🥔 瑞士烤馬鈴薯餅（Rösti）"]
         }
       }
-    };
+    };  
+ 
     let currentLang = "en";
 
-    function renderButtons() {
-      const categoryButtons = document.getElementById("category-buttons");
-      categoryButtons.innerHTML = "";
-      for (let key in data[currentLang].categories) {
-        const btn = document.createElement("button");
-        btn.className = "category-btn";
-        btn.textContent = data[currentLang].categoryNames[key] || key;
-        btn.onclick = () => chooseDinner(key);
-        categoryButtons.appendChild(btn);
-      }
-    }
     function renderText() {
       document.getElementById("title").textContent = data[currentLang].title;
       document.getElementById("desc").textContent = data[currentLang].desc;
       document.querySelector(".random-btn").textContent = data[currentLang].buttonText;
       renderButtons();
     }
-    function chooseDinner(category) {
-      const items = category
-        ? data[currentLang].categories[category]
-        : Object.values(data[currentLang].categories).flat();
-      const pick = items[Math.floor(Math.random() * items.length)];
-      document.getElementById("result").innerText = pick
-        ? (currentLang === "en" ? `Tonight's pick: ${pick}` : `今晚吃：${pick}`)
-        : (currentLang === "en" ? "No items" : "沒有選項");
+
+    function renderButtons() {
+      const categoryButtons = document.getElementById("category-buttons");
+      categoryButtons.innerHTML = "";
+      const categories = data[currentLang].categories;
+      for (let key in categories) {
+        const btn = document.createElement("button");
+        btn.className = "category-btn";
+        btn.textContent = key;
+        btn.onclick = () => chooseDinner(key);
+        categoryButtons.appendChild(btn);
+      }
     }
+
+    function chooseDinner(category) {
+      const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
+      const pick = items[Math.floor(Math.random() * items.length)];
+      document.getElementById("result").textContent = pick;
+    }
+
     function toggleLang() {
       currentLang = currentLang === "en" ? "zh" : "en";
       renderText();
     }
+
     function toggleMode() {
       document.body.classList.toggle("dark-mode");
       document.body.classList.toggle("light-mode");
     }
+
     renderText();
   </script>
 </body>
