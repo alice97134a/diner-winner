@@ -47,14 +47,12 @@
   <h1 id="title">🍽️ What to Eat Tonight?</h1>
   <button class="mode-btn" onclick="toggleMode()">🌓</button>
   <button class="lang-btn" onclick="toggleLang()">🌐</button>
-
   <div class="container">
+<p id="result"></p>
     <p id="desc">Tap a button to randomly choose or pick a category:</p>
     <button class="random-btn" onclick="chooseDinner()">🎲 Random</button>
     <div id="category-buttons"></div>
-    <p id="result"></p>
   </div>
-
   <script>
     const data = {
       en: {
@@ -66,7 +64,7 @@
           Japanese: ["🍣 Sushi", "🍜 Ramen", "🍛 Curry Rice", "🍖 Tonkatsu (Fried Pork Cutlet)", "🥚🍚 Oyako Don (Chicken & Egg Rice Bowl)", "🍜 Udon Noodles", "🐟 Sashimi", "🍢 Teriyaki Chicken", "🐙 Takoyaki (Octopus Balls)", "🍤 Tempura", "🍙 Onigiri (Rice Ball)", "🍲 Sukiyaki", "🐙 Tako Wasabi (Raw Octopus with Wasabi)"],
           Italian: ["🍝 Pasta", "🍕 Pizza", "🍅 Tomato Risotto", "🍲 Lasagna", "🥗 Caesar Salad", "🥩 Italian Beef Stew", "🍰 Tiramisu", "☕ Cappuccino", "🍞 Focaccia", "🍄 Truffle Risotto"],
           American: ["🍔 Burger", "🍗 Fried Chicken", "🥩 Steak", "🍟 French Fries", "🔥 BBQ Ribs", "🌭 Hot Dog", "🐟 Fish and Chips", "🌮 Beef Taco", "🧅 Onion Rings", "🥜 Peanut Butter Sandwich"],
-          HealthyChoice: ["🥗 Salad", "🍗🔥 Grilled Chicken Breast", "🥣 Oatmeal", "🥦🥕 Vegetable Soup", "🍽️ Tofu Dishes", "🥜🥛 Nut Yogurt", "🥗🍚 Quinoa Salad", "🥪 Whole Wheat Sandwich", "🥬🍏 Green Smoothie", "🥚 Boiled Egg", "🥑🍞 Avocado Toast", "🍣🌱 Vegan Sushi", "🥬🍹 Green Latte", "🍯🥣 Greek Yogurt Bowl"],
+          Healthy Choice: ["🥗 Salad", "🍗🔥 Grilled Chicken Breast", "🥣 Oatmeal", "🥦🥕 Vegetable Soup", "🍽️ Tofu Dishes", "🥜🥛 Nut Yogurt", "🥗🍚 Quinoa Salad", "🥪 Whole Wheat Sandwich", "🥬🍏 Green Smoothie", "🥚 Boiled Egg", "🥑🍞 Avocado Toast", "🍣🌱 Vegan Sushi", "🥬🍹 Green Latte", "🍯🥣 Greek Yogurt Bowl"],
           Korean: ["🍗 Korean Fried Chicken", "🍲 Bibimbap (Hot Stone Bowl Rice)", "🌶️ Kimchi Stew", "🍜 Budae Jjigae (Army Stew)", "🔥 Korean BBQ", "🍚 Kimchi Fried Rice", "🌶️ Tteokbokki (Spicy Rice Cakes)", "🍲 Doenjang Jjigae (Soybean Paste Stew)", "🥞 Korean Pancake", "🍜 Naengmyeon (Cold Noodles)", "🍢 Sundae (Korean Blood Sausage)", "🥩🔥 Grilled Beef Intestines"],
 	  Vietnamese: ["🍜 Vietnamese Pho", "🥖 Banh Mi (Vietnamese Baguette Sandwich)", "🥢 Vietnamese Spring Rolls", "🍗 Chicken Rice", "🍜 Vermicelli Salad", "🦐 Sugarcane Shrimp", "🍚 Vietnamese Fried Rice", "🍋 Lemongrass Grilled Chicken", "🐮 Beef Pho", "☕ Vietnamese Coffee"],
           Thai: ["🍛🌿 Thai Green Curry", "🍲🦐 Tom Yum Soup (Spicy Seafood Soup)", "🍚🐷 Thai Basil Pork Rice", "🍜🥜 Pad Thai (Stir-fried Rice Noodles)", "🥥🍲 Tom Kha Gai (Coconut Chicken Soup)", "🥭🍚 Mango Sticky Rice", "🍗🔥 Gai Yang (Thai Grilled Chicken)", "🌶️🐟 Steamed Fish with Lime and Chili", "🍤 Thai Shrimp Cakes", "🥗 Som Tam (Green Papaya Salad)", "🍤🦀 Thai Yellow Curry Crab", "🍲🐟 Khao Soi (Northern Thai Curry Noodles)", "🥥🍛 Thai Red Curry", "🥜🐔 Thai Chicken Satay Skewers", "🍹 Thai Milk Tea", "🥥 Coconut Smoothie"],
@@ -108,45 +106,39 @@
         }
       }
     };  
- 
     let currentLang = "en";
-
     function renderText() {
       document.getElementById("title").textContent = data[currentLang].title;
       document.getElementById("desc").textContent = data[currentLang].desc;
       document.querySelector(".random-btn").textContent = data[currentLang].buttonText;
       renderButtons();
     }
-
-    function renderButtons() {
-      const categoryButtons = document.getElementById("category-buttons");
-      categoryButtons.innerHTML = "";
-      const categories = data[currentLang].categories;
-      for (let key in categories) {
-        const btn = document.createElement("button");
+	function renderButtons() {
+      　const categoryButtons = document.getElementById("category-buttons");
+      　categoryButtons.innerHTML = "";
+      　const categories = data[currentLang].categories;
+      　for (let key in categories) {
+	const btn = document.createElement("button");
         btn.className = "category-btn";
         btn.textContent = key;
         btn.onclick = () => chooseDinner(key);
         categoryButtons.appendChild(btn);
       }
     }
-
-    function chooseDinner(category) {
-      const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
-      const pick = items[Math.floor(Math.random() * items.length)];
-      document.getElementById("result").textContent = pick;
+	  function chooseDinner(category) {
+	　const items = category ? data[currentLang].categories[category] : Object.values(data[currentLang].categories).flat();
+  	　const pick = items[Math.floor(Math.random() * items.length)];
+  	　document.getElementById("result").textContent = pick;
+　	　window.open("", "_blank").document.write(`<h2 style="font-size:2em;text-align:center;">${pick}</h2>`);
+}
+    	function toggleLang() {
+      　currentLang = currentLang === "en" ? "zh" : "en";
+	renderText();
     }
-
-    function toggleLang() {
-      currentLang = currentLang === "en" ? "zh" : "en";
-      renderText();
+	function toggleMode() {
+      　document.body.classList.toggle("dark-mode");
+      　document.body.classList.toggle("light-mode");
     }
-
-    function toggleMode() {
-      document.body.classList.toggle("dark-mode");
-      document.body.classList.toggle("light-mode");
-    }
-
     renderText();
   </script>
 </body>
