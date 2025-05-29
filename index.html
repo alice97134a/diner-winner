@@ -1,53 +1,27 @@
 <style>
-  body {
-    font-family: sans-serif;
-    transition: background 0.4s, color 0.4s;
-  }
-  body.dark-mode {
-    background: #222;
-    color: #f5f5f5;
-  }
-  body.light-mode {
-    background: #fff;
-    color: #111;
-  }
-
-  .container {
-    text-align: center;
-    margin-top: 2rem;
-  }
-
-  button {
-    margin: 4px;
-    padding: 10px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  .mode-btn, .lang-btn {
-    background: #eee;
-    color: #111;
-  }
-
-  body.dark-mode .mode-btn,
-  body.dark-mode .lang-btn {
-    background: #333;
-    color: #fff;
-  }
-
-  #hint {
-    margin-top: 1rem;
-    font-size: 18px;
-    transition: opacity 0.3s;
-  }
-
-  body.dark-mode #hint {
-    opacity: 0.2; 
-  }
-</style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .container {
+      padding: 30px;
+      text-align: center;
+    }
+    .dark { background-color: #111; color: #eee; }
+    .light { background-color: #fff; color: #111; }
+    button {
+      margin: 5px;
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+    .random-btn { background-color: #7a9e9f; color: white; }
+    .category-btn { background-color: #aaa; color: white; }
+    footer { text-align: center; padding: 20px; font-size: 14px; opacity: 0.6; }
+  </style>
 
 <body class="light-mode">
   <h1 id="page-title">🍽️ 今晚吃什麼？</h1>
