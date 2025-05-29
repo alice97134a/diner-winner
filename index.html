@@ -1,74 +1,78 @@
-<style>
-  body {
-    font-family: sans-serif;
-    transition: background 0.4s, color 0.4s;
-  }
-  body.dark-mode {
-    background: #222;
-    color: #f5f5f5;
-  }
-  body.light-mode {
-    background: #fff;
-    color: #111;
-  }
-
-  .container {
-    text-align: center;
-    margin-top: 2rem;
-  }
-
-  button {
-    margin: 4px;
-    padding: 10px 16px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  .mode-btn, .lang-btn {
-    background: #eee;
-    color: #111;
-  }
-
-  body.dark-mode .mode-btn,
-  body.dark-mode .lang-btn {
-    background: #333;
-    color: #fff;
-  }
-
-  #hint {
-    margin-top: 1rem;
-    font-size: 18px;
-    transition: opacity 0.3s;
-  }
-
-  body.dark-mode #hint {
-    opacity: 0.2; 
-  }
-</style>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dinner Picker</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      transition: background 0.4s, color 0.4s;
+    }
+    body.dark-mode {
+      background: #222;
+      color: #f5f5f5;
+    }
+    body.light-mode {
+      background: #fff;
+      color: #111;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      text-align: center;
+    }
+    button {
+      margin: 6px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .mode-btn, .lang-btn {
+      background: #eee;
+      color: #111;
+    }
+    body.dark-mode .mode-btn, body.dark-mode .lang-btn {
+      background: #333;
+      color: #fff;
+    }
+    #hint {
+      font-size: 18px;
+      margin-top: 1rem;
+      transition: opacity 0.3s;
+    }
+    body.dark-mode #hint {
+      opacity: 0.2;
+    }
+    #result {
+      font-size: 24px;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
 <body class="light-mode">
-  <h1 id="page-title">🍽️ 今晚吃什麼？</h1>
   <div class="container">
-    <p id="hint">👇 點一下開始 | Tap to Start 👇</p>
-    <p id="result"></p>
-
-    <button class="mode-btn" onclick="toggleMode()">🌓</button>
-    <button class="lang-btn" onclick="toggleLang()">🌐</button>
-    <button id="random-btn" onclick="chooseDinner()">🎲</button>
-
-    <div id="category-buttons"></div>
+    <div>
+      <button class="mode-btn" onclick="toggleMode()">🌓</button>
+      <button class="lang-btn" onclick="toggleLang()">🌐 中/EN</button>
+    </div>
+    <div id="title">🍽️ 今晚吃什麼？</div>
+    <div id="hint">👇 點一下開始 | Tap to Start 👇</div>
+    <button onclick="chooseDinner()">🎲</button>
+    <div id="result"></div>
   </div>
 
-<script>
-const text = {
-  zh: {
-    title: "🍽️ 今晚吃什麼？",
-    hint: "👇 點一下開始 | Tap to Start 👇",
-    random: "🎲 隨機選擇",
-    categories: {
+  <script>
+    const data = {
+      zh: {
+        title: "🍽️ 今晚吃什麼？",
+        hint: "👇 點一下開始 | Tap to Start 👇",
+        categories: {
           "中式": ["🍚 炒飯", "🍜 紅燒牛肉麵", "🌶️ 麻婆豆腐", "🍚 滷肉飯", "🥟 水餃", "🥢 宮保雞丁 + 白飯", "🌶️🍛 麻婆豆腐 + 白飯", "🍚🥚 滷肉飯 + 半熟蛋", "🍲🐮 紅燒牛肉飯", "🍚🔥 煲仔飯（滑雞 / 臘味）", "🍚🥬 上海菜飯", "🍲🐟 生滾粥（皮蛋瘦肉粥 / 海鮮粥）", "🍖🍚 新疆手抓飯", "🐔🧄 白斬雞 + 薑蔥醬", "🍍🐷 咕嚕肉（糖醋里肌）", "🍚🐷 扣肉飯", "🍖🍚 東坡肉飯", "🍚🍖 燒臘飯（叉燒 / 燒鴨 / 燒肉）", "🍜🐮 紅燒牛肉麵", "🍝🥒 炸醬麵", "🍜🔪 刀削麵", "🍜🥩 炒碼麵", "🍗🍝 新疆大盤雞 + 拌麵", "🌶️🍜 擔擔麵", "🦞🍜 龍蝦伊麵", "🍜🍳 上海粗炒", "🍜🥢 麵線糊", "🥢🐜 螞蟻上樹（粉絲炒肉末）", "🍜🌶️ 桂林米粉", "🌶️🍜 螺螄粉", "🥩🔥 牛仔骨（烤 / 燒汁）", "🍖🥯 東北烤羊肉串 + 烤饅頭片", "🍗🔥 烤雞翅", "🦑🔥 烤魷魚", "🌿🔥 烤韭菜", "🍆🔥 烤茄子", "🦆🔥 北京烤鴨", "🐷🔥 蜜汁叉燒", "🌶️🐔 口水雞", "🧄🥩 蔥爆牛肉", "🦐🔥 鹽酥蝦"],
           "日式": ["🍣 壽司", "🍜 拉麵", "🍛 咖哩飯", "🍖 炸豬排", "🥚🍚 親子丼", "🍜 烏龍麵", "🐟 刺身", "🍢 照燒雞", "🐙 章魚燒", "🍤 天婦羅", "🍙 御飯糰", "🍲 壽喜燒", "🐙 生章魚"],
           "義式": ["🍝 義大利麵", "🍕 披薩", "🍅 番茄燉飯", "🍲 千層麵", "🥗 凱撒沙拉", "🥩 義式燉牛肉", "🍰 提拉米蘇", "☕ 卡布奇諾", "🍞 義式薄餅", "🍄 松露燉飯"],
@@ -87,13 +91,12 @@ const text = {
           "吃到飽": ["🔥 燒肉吃到飽", "🍰 甜點吃到飽", "🍤 炸物吃到飽", "🍣 壽司吃到飽", "🦞 海鮮吃到飽", "🍽️ 自助餐"],
           "義大利麵特區": ["🍅 番茄義大利麵", "🥓 奶油培根義大利麵", "🌿 青醬義大利麵", "🦪 蒜香白酒蛤蜊麵", "🍖 義式肉醬麵", "🍄 松露野菇義大利麵", "🦐 海鮮義大利麵", "🌰 黑松露奶油義大利麵", "🦑 明太子義大利麵", "🎃 南瓜奶油義大利麵", "🐟 茄汁鮪魚義大利麵", "🌶️ 辣味蒜香義大利麵", "🦆 煙燻鴨胸義大利麵", "🐔 奶油雞肉菠菜義大利麵", "🥬 松露奶油菠菜義大利麵", "🥦 素食綠咖哩義大利麵", "🖤 墨魚汁義大利麵", "🧀 松露帕瑪森起司義大利麵", "🌼 番紅花奶油義大利麵"],
           "新鮮體驗": ["🥩 阿根廷烤肉（Asado）", "🍖 巴西烤肉（Churrasco）", "🔥 墨西哥碳烤肉（Carne Asada）", "🥓 日式烤串（Yakitori）", "🍢 泰式烤豬肉串（Moo Ping）", "🍲 馬來西亞咖哩叻沙（Laksa）", "🍜 新加坡肉骨茶（Bak Kut Teh）", "🍝 匈牙利牛肉麵（Goulash）", "🍜 越南蟹湯米線（Bún Riêu）", "🍛 印度黃咖哩飯（Butter Chicken + Basmati Rice）", "🍚 菲律賓燉豬肉飯（Adobo）", "🍚 西班牙海鮮飯（Paella）", "🍚 埃及雞肉飯（Koshari）", "🍲 韓國牛骨湯（Seolleongtang）", "🍲 泰國酸辣椰奶雞湯（Tom Kha Gai）", "🍲 俄羅斯羅宋湯（Borscht）", "🍲 法國魚湯（Bouillabaisse）", "🧀 瑞士起司鍋（Fondue）", "🥞 法國可麗餅（Crêpes）", "🍠 日式烤地瓜（Yaki-Imo）", "🍩 葡式蛋塔（Pastel de Nata）", "🍞 德國奶油捲（Schnecken）", "🐟 冰島發酵鯊魚（Hákarl）", "🐑 蒙古手扒羊（Khorkhog）", "🦆 中國鹽水鴨（Salted Duck）", "🦘 澳洲袋鼠肉（Kangaroo Steak）", "🥩 阿爾及利亞羊頭湯（Bouzelouf）", "🌶️🧄 臭豆腐", "🥔 瑞士烤馬鈴薯餅（Rösti）"]
-    }
-  },
-  en: {
-    title: "🍽️ What's for Dinner?",
-    hint: "👇 Tap to start 👇",
-    random: "🎲 Random Pick",
-    categories: {
+	}
+      },
+      en: {
+        title: "🍽️ What's for Dinner?",
+        hint: "👇 Tap to Start 👇",
+        categories: {
           "Chinese": ["🍚 Fried Rice", "🍜 Braised Beef Noodles", "🌶️ Mapo Tofu", "🍚 Braised Pork Rice", "🥟 Boiled Dumplings", "🥢 Kung Pao Chicken + Rice", "🌶️🍛 Mapo Tofu + Rice", "🍚🥚 Braised Pork Rice + Soft-Boiled Egg", "🍲🐮 Braised Beef with Rice", "🍚🔥 Claypot Rice (Chicken / Sausage)", "🍚🥬 Shanghai Veggie Rice", "🍲🐟 Congee (Century Egg / Seafood)", "🍖🍚 Xinjiang Pilaf", "🐔🧄 White Cut Chicken + Ginger Scallion Sauce", "🍍🐷 Sweet & Sour Pork", "🍚🐷 Braised Pork Belly Rice", "🍖🍚 Dongpo Pork Rice", "🍚🍖 Roasted Meats Rice", "🍜🐮 Beef Noodle Soup", "🍝🥒 Zha Jiang Noodles", "🍜🔪 Knife-Cut Noodles", "🍜🥩 Stir-fried Mixed Noodles", "🍗🍝 Big Plate Chicken + Noodles", "🌶️🍜 Dan Dan Noodles", "🦞🍜 Lobster Yee Mee", "🍜🍳 Shanghai Fried Thick Noodles", "🍜🥢 Thin Noodle Soup", "🥢🐜 Ants Climbing a Tree", "🍜🌶️ Guilin Rice Noodles", "🌶️🍜 Luosifen (Snail Noodles)", "🥩🔥 Grilled Short Ribs", "🍖🥯 Lamb Skewers + Toasted Buns", "🍗🔥 Grilled Chicken Wings", "🦑🔥 Grilled Squid", "🌿🔥 Grilled Chives", "🍆🔥 Grilled Eggplant", "🦆🔥 Peking Duck", "🐷🔥 Honey Char Siu", "🌶️🐔 Mouthwatering Chicken", "🧄🥩 Scallion Beef Stir-fry", "🦐🔥 Salted Crispy Shrimp"],
           "Japanese": ["🍣 Sushi", "🍜 Ramen", "🍛 Curry Rice", "🍖 Tonkatsu (Fried Pork Cutlet)", "🥚🍚 Oyako Don (Chicken & Egg Rice Bowl)", "🍜 Udon Noodles", "🐟 Sashimi", "🍢 Teriyaki Chicken", "🐙 Takoyaki (Octopus Balls)", "🍤 Tempura", "🍙 Onigiri (Rice Ball)", "🍲 Sukiyaki", "🐙 Tako Wasabi (Raw Octopus with Wasabi)"],
           "Italian": ["🍝 Pasta", "🍕 Pizza", "🍅 Tomato Risotto", "🍲 Lasagna", "🥗 Caesar Salad", "🥩 Italian Beef Stew", "🍰 Tiramisu", "☕ Cappuccino", "🍞 Focaccia", "🍄 Truffle Risotto"],
@@ -112,49 +115,29 @@ const text = {
           "Buffet": ["🔥 BBQ Buffet", "🍰 Dessert Buffet", "🍤 Fried Food Buffet", "🍣 Sushi Buffet", "🦞 Seafood Buffet", "🍽️ All-You-Can-Eat"],
           "Pastaaa": ["🍅 Tomato Pasta", "🥓 Carbonara (Creamy Bacon Pasta)", "🌿 Pesto Pasta", "🦪 Garlic White Wine Clam Pasta", "🍖 Bolognese Pasta", "🍄 Truffle Mushroom Pasta", "🦐 Seafood Pasta", "🌰 Black Truffle Cream Pasta", "🦑 Mentaiko Pasta", "🎃 Pumpkin Cream Pasta", "🐟 Tuna Tomato Pasta", "🌶️ Spicy Garlic Pasta", "🦆 Smoked Duck Breast Pasta", "🐔 Creamy Chicken Spinach Pasta", "🥬 Truffle Cream Spinach Pasta", "🥦 Vegetarian Green Curry Pasta", "🖤 Squid Ink Pasta", "🧀 Truffle Parmesan Pasta", "🌼 Saffron Cream Pasta"],
           "Try Something New": ["🥩 Argentinian BBQ (Asado)", "🍖 Brazilian BBQ (Churrasco)", "🔥 Mexican Grilled Meat (Carne Asada)", "🥓 Japanese Skewers (Yakitori, Yakiniku)", "🍢 Thai Grilled Pork Skewers (Moo Ping)", "🍲 Malaysian Curry Laksa", "🍜 Singaporean Bak Kut Teh", "🍝 Hungarian Beef Stew Pasta (Goulash)", "🍜 Vietnamese Crab Noodle Soup (Bún Riêu)", "🍛 Indian Butter Chicken with Basmati Rice", "🍚 Filipino Braised Pork Rice (Adobo)", "🍚 Spanish Seafood Paella", "🍚 Egyptian Chicken Rice (Koshari)", "🍲 Korean Ox Bone Soup (Seolleongtang)", "🍲 Thai Tom Kha Gai", "🍲 Russian Borscht", "🍲 French Fish Soup (Bouillabaisse)", "🧀 Swiss Cheese Fondue", "🥞 French Crêpes", "🍠 Japanese Roasted Sweet Potato (Yaki-Imo)", "🍩 Portuguese Egg Tart (Pastel de Nata)", "🍞 German Butter Roll (Schnecken)", "🐟 Icelandic Fermented Shark (Hákarl)", "🐑 Mongolian Khorkhog (Hand-Pulled Lamb)", "🦆 Chinese Salted Duck", "🦘 Australian Kangaroo Steak", "🥩 Algerian Sheep Head Soup (Bouzelouf)", "🌶️🧄 Stinky Tofu", "🥔 Swiss Rösti (Grated Potato Pancake)"]
+   	 }
+      }
+    };
 
+    let currentLang = "zh";
+
+    function toggleMode() {
+      document.body.classList.toggle("dark-mode");
+      document.body.classList.toggle("light-mode");
     }
-  }
-};
 
-let currentLang = 'zh';
+    function toggleLang() {
+      currentLang = currentLang === "zh" ? "en" : "zh";
+      document.getElementById("title").innerText = data[currentLang].title;
+      document.getElementById("hint").innerText = data[currentLang].hint;
+    }
 
-function renderPage() {
-  const langData = text[currentLang];
-  document.getElementById('page-title').innerText = langData.title;
-  document.getElementById('hint').innerText = langData.hint;
-  document.getElementById('random-btn').innerText = langData.random;
-
-  const container = document.getElementById('category-buttons');
-  container.innerHTML = '';
-  Object.keys(langData.categories).forEach(category => {
-    const btn = document.createElement('button');
-    btn.className = 'category-btn';
-    btn.innerText = category;
-    btn.onclick = () => chooseDinner(category);
-    container.appendChild(btn);
-  });
-}
-
-function chooseDinner(category = null) {
-  const langData = text[currentLang];
-  const categories = Object.keys(langData.categories);
-  const selectedCategory = category || categories[Math.floor(Math.random() * categories.length)];
-  const options = langData.categories[selectedCategory];
-  const choice = options[Math.floor(Math.random() * options.length)];
-  document.getElementById('result').innerText = `${selectedCategory}: ${choice}`;
-}
-
-function toggleLang() {
-  currentLang = currentLang === 'zh' ? 'en' : 'zh';
-  renderPage();
-}
-
-function toggleMode() {
-  document.body.classList.toggle('dark-mode');
-  document.body.classList.toggle('light-mode');
-}
-
-window.onload = renderPage;
-</script>
+    function chooseDinner() {
+      const categories = data[currentLang].categories;
+      const allItems = Object.values(categories).flat();
+      const pick = allItems[Math.floor(Math.random() * allItems.length)];
+      document.getElementById("result").innerText = pick;
+    }
+  </script>
 </body>
+</html>
